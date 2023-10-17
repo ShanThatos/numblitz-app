@@ -36,3 +36,6 @@ yarn-error.*
 
 # local configs
 .vscode/
+
+# local makefile
+makefile

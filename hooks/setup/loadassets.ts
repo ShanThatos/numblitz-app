@@ -1,3 +1,4 @@
+import { NativeWindStyleSheet } from "nativewind"
 import { Platform } from "react-native"
 
 import { useLoadedFonts } from "./loadfonts"
@@ -7,6 +8,8 @@ if (Platform.OS === "web") {
   const ctx = require.context("../../node_modules/.cache/expo/tailwind")
   if (ctx.keys().length) ctx(ctx.keys()[0])
 }
+
+NativeWindStyleSheet.setOutput({ default: "native" })
 
 export default function useLoadedAssets() {
   const [fontsLoaded] = useLoadedFonts()
