@@ -6,11 +6,9 @@ const StyledView = styled(View)
 
 export default function Index() {
   return (
-    <View>
+    <StyledView className="flex-1 flex-col items-center justify-center bg-[#dbadad]">
       <StatusBar style="auto" />
-      <StyledView className="bg-slate-300 h-full flex flex-col justify-center items-center">
-        <Text>Open up App.tsx to start working on your app!</Text>
-      </StyledView>
-    </View>
+      <Text>Open up App.tsx to start working on your app!</Text>
+    </StyledView>
   )
 }
