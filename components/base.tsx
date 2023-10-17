@@ -1,8 +1,42 @@
+import { Image as RNImage } from "expo-image"
 import { styled } from "nativewind"
-import { Text as RNText, View as RNView } from "react-native"
+import {
+  View as RNView,
+  TouchableOpacity as RNTouchableOpacity,
+} from "react-native"
 
-const textClasses = "font-sans"
+import { FixedFontText } from "./FontFixedText"
 
+// Settings
+const textClasses = "font-sans text-base"
+
+// Typography
+export const Text = styled(FixedFontText, textClasses)
+
+export const BaseHeader = styled(Text, "font-bold")
+
+export const Header1 = styled(BaseHeader, "text-4xl")
+export const Header2 = styled(BaseHeader, "text-3xl")
+export const Header3 = styled(BaseHeader, "text-2xl")
+export const Header4 = styled(BaseHeader, "text-xl")
+export const Header5 = styled(BaseHeader, "text-lg")
+export const Header6 = styled(BaseHeader, "text-base")
+
+// Assets
+export const Image = styled(RNImage)
+
+// Layout
 export const View = styled(RNView)
+export const FullView = styled(View, "flex-1")
 
-export const Text = styled(RNText, textClasses)
+export const FlexRow = styled(View, "flex flex-row")
+export const FlexCol = styled(View, "flex flex-col")
+
+export const FullFlexRow = styled(FlexRow, "flex-1")
+export const FullFlexCol = styled(FlexCol, "flex-1")
+
+export const Center = styled(FlexCol, "justify-center items-center")
+export const FullCenter = styled(Center, "flex-1")
+
+// Buttons
+export const TouchableOpacity = styled(RNTouchableOpacity, "hover:opacity-50")

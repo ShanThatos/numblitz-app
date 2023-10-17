@@ -1,7 +1,11 @@
 import { NativeWindStyleSheet } from "nativewind"
 import { Platform } from "react-native"
+import eventsource from "react-native-sse"
 
 import { useLoadedFonts } from "./loadfonts"
+
+// @ts-ignore
+global.EventSource = eventsource
 
 if (Platform.OS === "web") {
   // @ts-ignore

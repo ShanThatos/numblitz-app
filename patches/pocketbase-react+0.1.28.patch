@@ -1,0 +1,12 @@
+diff --git a/node_modules/pocketbase-react/es/context/Pocketbase.js b/node_modules/pocketbase-react/es/context/Pocketbase.js
+index 39afead..66f45c7 100644
+--- a/node_modules/pocketbase-react/es/context/Pocketbase.js
++++ b/node_modules/pocketbase-react/es/context/Pocketbase.js
+@@ -1,6 +1,6 @@
+ import * as React from 'react';
+ import { createContext, useEffect } from 'react';
+-import PocketBase from 'pocketbase';
++import PocketBase from 'pocketbase/dist/pocketbase.es';
+ import { Provider } from 'react-redux';
+ import { PersistGate } from 'redux-persist/integration/react';
+ import { store, persistor } from '../store/store';
