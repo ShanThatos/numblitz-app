@@ -1,0 +1,58 @@
+NumBlitz Client
+frontend react native+expo app
+gluestack ui
+
+login with oauth2 (google or facebook)
+
+bottom navigation menu
+	Practice
+	Workbooks (add later -- workbooks created by teachers, sorta like quizlet)
+	Profile
+
+
+Practice Navigation
+	Search bar at the top (always shown) (add later)
+
+	Categories (shown as 2-column cards?) (check math-magic.org)
+		Memorization
+		Fractions
+		Multiplying Numbers
+		Multiplying Strategies
+		Base #
+		Sequences
+		Miscellaneous
+		Approximations
+		Combinatorics
+		Geometry
+		Algebra
+
+	Inside a category (more cards single column (for larger devices make more columns))
+		Title
+		Example format
+		progress
+		difficulty
+		Locked/unlocked
+		on click = practice
+		have "explanation" button
+	
+	Explanation Screen
+		katex + quilljs for editing!
+		complete html view?
+			expo-webview has community web polyfill
+			https://github.com/react-native-web-community/react-native-web-webview
+		shortcut to practice
+
+	Practice Screen (should be detached from practice navigation)
+		accept list of problems
+		parse answer, change displays as such (include units)
+			separate input for each digit
+			digit/space/tab/backspace move between digits
+		different displays
+			default (#+)
+			decimal (#+.#+)
+			money (#+.##)
+			fraction (#+/#+)
+			mixed (#+ #+/#+)
+		custom keyboard (don't use default ios/android keyboards)
+
+
