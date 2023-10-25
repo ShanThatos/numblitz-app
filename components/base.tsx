@@ -38,4 +38,4 @@ export const FullFlexRowCenter = styled(FlexRowCenter, "flex-1")
 export const FullFlexColCenter = styled(FlexColCenter, "flex-1")
 
 // Buttons
-export const Pressable = styled(RNPressable)
+export const Pressable = styled(RNPressable, "active:opacity-70")

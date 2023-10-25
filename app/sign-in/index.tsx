@@ -1,8 +1,13 @@
+import { Link } from "expo-router"
+
 import {
   FlexColCenter,
   FlexRowCenter,
+  FullFlexColCenter,
   Header1,
   Image,
+  Pressable,
+  Text,
 } from "../../components/base"
 import SocialButton from "../../components/socialbuttons/SocialButton"
 
@@ -24,6 +29,13 @@ export default function SignInIndex() {
       <FlexColCenter className="mt-[3vh]">
         <SocialButton variant="google" />
       </FlexColCenter>
+      <FullFlexColCenter className="justify-end pb-10 web:justify-start web:pt-32">
+        <Link href="/" asChild>
+          <Pressable>
+            <Text className="text-slate-600">I'll sign in later</Text>
+          </Pressable>
+        </Link>
+      </FullFlexColCenter>
     </>
   )
 }

@@ -22,7 +22,7 @@ export default function SocialButton({
   const { classes, image } = Variants[variant]
   return (
     <Pressable
-      className={`flex flex-row rounded-md border px-5 py-2.5 shadow hover:shadow-md active:opacity-70 ${classes} ${className}`}
+      className={`flex flex-row rounded-md border px-5 py-2.5 shadow hover:shadow-md ${classes} ${className}`}
       {...props}
     >
       <Image className="aspect-square w-8" source={image} />
