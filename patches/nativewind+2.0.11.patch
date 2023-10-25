@@ -1,0 +1,18 @@
+diff --git a/node_modules/nativewind/dist/styled/use-interaction.js b/node_modules/nativewind/dist/styled/use-interaction.js
+index a66e32b..05c2661 100644
+--- a/node_modules/nativewind/dist/styled/use-interaction.js
++++ b/node_modules/nativewind/dist/styled/use-interaction.js
+@@ -48,10 +48,10 @@ function useInteraction(dispatch, mask, props) {
+                 dispatch({ type: "hover", value: true });
+             };
+             handlers.onHoverOut = function (event) {
+-                if (ref.current.onHoverIn) {
+-                    ref.current.onHoverIn(event);
++                if (ref.current.onHoverOut) {
++                    ref.current.onHoverOut(event);
+                 }
+-                dispatch({ type: "hover", value: true });
++                dispatch({ type: "hover", value: false });
+             };
+         }
+         if (isParentOrGroup || (0, selector_1.matchesMask)(mask, selector_1.FOCUS)) {

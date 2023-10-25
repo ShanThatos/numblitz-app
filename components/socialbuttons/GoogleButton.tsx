@@ -9,10 +9,10 @@ export default function GoogleButton(props: GoogleButtonProps) {
     <Pressable
       className="flex flex-row rounded border border-neutral-200 bg-white px-5 py-2.5 shadow-sm hover:shadow"
       onPress={props.onPress}
-      onHoverIn={(e) => {
+      onHoverIn={(_e) => {
         console.log("hover in")
       }}
-      onHoverOut={(e) => {
+      onHoverOut={(_e) => {
         console.log("hover out")
       }}
     >
@@ -20,7 +20,6 @@ export default function GoogleButton(props: GoogleButtonProps) {
         className="aspect-square w-8"
         source={require("../../assets/images/socials/google.png")}
       />
-      {/* <Text className="ml-2 leading-none">Continue with Google</Text> */}
       <Header5 className="ml-2 self-center leading-none">
         Continue with Google
       </Header5>
