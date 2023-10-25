@@ -1,9 +1,13 @@
-import { StyleSheet, Text } from "react-native"
+import { StyleSheet, Text, TextStyle } from "react-native"
 
 const CUSTOM_FONT_FAMILIES = ["Nunito", "Mulish"]
 
 export const FixedFontText = ({ style, ...restProps }: Text["props"]) => {
-  const flatStyle = StyleSheet.flatten(style)
+  const flatStyle = StyleSheet.flatten([
+    style,
+    { userSelect: "none" },
+  ]) as TextStyle
+
   if (flatStyle.fontFamily === undefined) {
     flatStyle.fontFamily = "Nunito"
   }

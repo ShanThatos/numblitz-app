@@ -4,7 +4,7 @@ import {
   Header1,
   Image,
 } from "../../components/base"
-import GoogleButton from "../../components/socialbuttons/GoogleButton"
+import SocialButton from "../../components/socialbuttons/SocialButton"
 
 export default function SignInIndex() {
   return (
@@ -22,7 +22,7 @@ export default function SignInIndex() {
         </Header1>
       </FlexRowCenter>
       <FlexColCenter className="mt-[3vh]">
-        <GoogleButton />
+        <SocialButton variant="google" />
       </FlexColCenter>
     </>
   )
