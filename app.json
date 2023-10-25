@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "numblitz-app",
-    "slug": "numblitz-app",
+    "name": "numblitz",
+    "slug": "numblitz",
     "scheme": "numblitz",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,7 +16,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.shanthatos.numblitz"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,6 +31,14 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "2cf7091b-2b81-4049-8b16-92d24861a669"
+      }
+    }
   }
 }

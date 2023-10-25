@@ -1,9 +1,6 @@
 import { Image as RNImage } from "expo-image"
 import { styled } from "nativewind"
-import {
-  View as RNView,
-  TouchableOpacity as RNTouchableOpacity,
-} from "react-native"
+import { View as RNView, Pressable as RNPressable } from "react-native"
 
 import { FixedFontText } from "./FontFixedText"
 
@@ -35,8 +32,10 @@ export const FlexCol = styled(View, "flex flex-col")
 export const FullFlexRow = styled(FlexRow, "flex-1")
 export const FullFlexCol = styled(FlexCol, "flex-1")
 
-export const Center = styled(FlexCol, "justify-center items-center")
-export const FullCenter = styled(Center, "flex-1")
+export const FlexRowCenter = styled(FlexRow, "justify-center items-center")
+export const FlexColCenter = styled(FlexCol, "justify-center items-center")
+export const FullFlexRowCenter = styled(FlexRowCenter, "flex-1")
+export const FullFlexColCenter = styled(FlexColCenter, "flex-1")
 
 // Buttons
-export const TouchableOpacity = styled(RNTouchableOpacity, "hover:opacity-50")
+export const Pressable = styled(RNPressable)

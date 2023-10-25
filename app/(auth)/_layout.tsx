@@ -1,18 +1,13 @@
 import { Redirect } from "expo-router"
-import { useAuth } from "pocketbase-react"
 
 import { FullCenter, Text } from "../../components/base"
 
 export default function AuthLayout() {
-  const { isSignedIn } = useAuth()
+  return <Redirect href="/sign-in" />
 
-  if (!isSignedIn) {
-    return <Redirect href="/sign-in" />
-  }
-
-  return (
-    <FullCenter>
-      <Text>Hello there!</Text>
-    </FullCenter>
-  )
+  // return (
+  //   <FullCenter>
+  //     <Text>Hello there!</Text>
+  //   </FullCenter>
+  // )
 }
