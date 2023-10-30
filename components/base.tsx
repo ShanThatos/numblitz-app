@@ -1,6 +1,11 @@
 import { Image as RNImage } from "expo-image"
 import { styled } from "nativewind"
-import { View as RNView, Pressable as RNPressable } from "react-native"
+import {
+  View as RNView,
+  Pressable as RNPressable,
+  Platform,
+} from "react-native"
+import { WebView as RNWebView } from "react-native-webview"
 
 import { FixedFontText } from "./FontFixedText"
 
@@ -39,3 +44,6 @@ export const FullFlexColCenter = styled(FlexColCenter, "flex-1")
 
 // Buttons
 export const Pressable = styled(RNPressable, "active:opacity-70")
+
+// WebView
+export const WebView = styled(RNWebView)

@@ -10,7 +10,7 @@ export default function AppLayout() {
   if (!assetsLoaded) return null
 
   return (
-    <FullView className="bg-[#FFF2F3]">
+    <FullView className="overflow-hidden bg-primary">
       <StatusBar style="auto" />
       <Slot />
     </FullView>
