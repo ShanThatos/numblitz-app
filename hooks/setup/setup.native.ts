@@ -1,6 +1,7 @@
 import { SplashScreen } from "expo-router"
 import { useEffect } from "react"
 
+import "./devextensions"
 import { default as useLoadedAssetsBasic } from "./loadassets"
 
 SplashScreen.preventAutoHideAsync()

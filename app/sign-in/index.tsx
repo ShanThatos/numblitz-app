@@ -1,5 +1,7 @@
-import { Redirect, router } from "expo-router"
-import { useEffect, useState } from "react"
+import * as Linking from "expo-linking"
+import { router } from "expo-router"
+import * as WebBrowser from "expo-web-browser"
+import { useCallback } from "react"
 
 import {
   FlexColCenter,
@@ -11,25 +13,33 @@ import {
   Text,
 } from "../../components/base"
 import SocialButton from "../../components/socialbuttons/SocialButton"
+import { API_URL } from "../../utils/Query"
 import Storage from "../../utils/Storage"
 
+WebBrowser.maybeCompleteAuthSession()
+
 export default function SignInIndex() {
-  const [signInLater, setSignInLater] = useState<boolean | null>(null)
+  const signIn = useCallback(async (provider: string) => {
+    const baseUrl = API_URL + `/login/${provider}?`
+    const url =
+      baseUrl +
+      new URLSearchParams({
+        redirect: Linking.createURL("/sign-in"),
+      }).toString()
 
-  useEffect(() => {
-    Storage.getItem("nb-sign-in-later").then((value) => {
-      if (value === null) setSignInLater(false)
-      else {
-        const current = Date.now()
-        setSignInLater(current - parseFloat(value) < 604800)
-        Storage.setItem("nb-sign-in-later", current.toString())
+    const result = await WebBrowser.openAuthSessionAsync(url)
+    if (result.type === "success") {
+      const token = result.url
+        .split("?")[1]
+        .split("&")
+        .find((param) => param.startsWith("token="))
+        ?.substring(6)
+      if (token !== undefined) {
+        await Storage.setItem("nb-jwt-token", token)
+        router.replace("/")
       }
-    })
+    }
   }, [])
-
-  if (signInLater === null) return null
-
-  if (signInLater) return <Redirect href="/home" />
 
   return (
     <>
@@ -46,13 +56,12 @@ export default function SignInIndex() {
         </Header1>
       </FlexRowCenter>
       <FlexColCenter className="mt-[3vh]">
-        <SocialButton variant="google" />
+        <SocialButton variant="google" signIn={signIn} />
       </FlexColCenter>
       <FullFlexColCenter className="justify-end pb-10 web:justify-start web:pt-32">
         <Pressable
           onPress={async () => {
-            await Storage.setItem("nb-sign-in-later", Date.now().toString())
-            setSignInLater(true)
+            await Storage.setItem("nb-jwt-token", "sign-in-later")
             router.replace("/home")
           }}
         >
