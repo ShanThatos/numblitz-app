@@ -3,7 +3,7 @@ import { styled } from "nativewind"
 import {
   View as RNView,
   Pressable as RNPressable,
-  Platform,
+  ScrollView as RNScrollView,
 } from "react-native"
 import { WebView as RNWebView } from "react-native-webview"
 
@@ -41,6 +41,8 @@ export const FlexRowCenter = styled(FlexRow, "justify-center items-center")
 export const FlexColCenter = styled(FlexCol, "justify-center items-center")
 export const FullFlexRowCenter = styled(FlexRowCenter, "flex-1")
 export const FullFlexColCenter = styled(FlexColCenter, "flex-1")
+
+export const ScrollView = styled(RNScrollView, "flex-1")
 
 // Buttons
 export const Pressable = styled(RNPressable, "active:opacity-70")

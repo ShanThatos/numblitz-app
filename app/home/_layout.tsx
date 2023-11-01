@@ -64,11 +64,8 @@ export default function TabsLayout() {
       initialRouteName="practice"
       screenOptions={{
         headerShown: false,
-        headerStyle: {
-          backgroundColor: getColor("primary"),
-        },
         tabBarStyle: {
-          backgroundColor: getColor("primary"),
+          backgroundColor: getColor("white"),
           ...Platform.select({
             web: {
               marginBottom: 10,
