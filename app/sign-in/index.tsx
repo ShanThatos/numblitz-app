@@ -61,7 +61,7 @@ export default function SignInIndex() {
       <FullFlexColCenter className="justify-end pb-10 web:justify-start web:pt-32">
         <Pressable
           onPress={async () => {
-            await Storage.setItem("nb-jwt-token", "sign-in-later")
+            await Storage.removeItem("nb-jwt-token")
             router.replace("/home")
           }}
         >
