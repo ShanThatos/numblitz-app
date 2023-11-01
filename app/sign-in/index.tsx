@@ -2,6 +2,7 @@ import * as Linking from "expo-linking"
 import { router } from "expo-router"
 import * as WebBrowser from "expo-web-browser"
 import { useCallback } from "react"
+import { URL, URLSearchParams } from "react-native-url-polyfill"
 
 import {
   FlexColCenter,
@@ -29,12 +30,8 @@ export default function SignInIndex() {
 
     const result = await WebBrowser.openAuthSessionAsync(url)
     if (result.type === "success") {
-      const token = result.url
-        .split("?")[1]
-        .split("&")
-        .find((param) => param.startsWith("token="))
-        ?.substring(6)
-      if (token !== undefined) {
+      const token = new URL(result.url).searchParams.get("token")
+      if (token) {
         await Storage.setItem("nb-jwt-token", token)
         router.replace("/")
       }

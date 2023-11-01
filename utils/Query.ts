@@ -1,3 +1,5 @@
+import { URLSearchParams } from "react-native-url-polyfill"
+
 import Storage from "./Storage"
 
 // @ts-ignore
@@ -21,14 +23,14 @@ export const authFetch = async (
     throw new Error("Cannot send body with GET request")
   }
 
-  const fullUrl = API_URL + url + new URLSearchParams(params)
+  const fullUrl = `${API_URL}${url}?` + new URLSearchParams(params)
 
   return await (
     await fetch(fullUrl, {
       method,
       headers: {
         "Content-Type": "application/json",
-        ...(token !== null ? { Authorization: `Bearer ${token}` } : {}),
+        ...(token !== null ? { Authorization: token } : {}),
       },
       ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
     })

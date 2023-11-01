@@ -1,4 +1,5 @@
-import { Tabs } from "expo-router"
+import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs/src/types"
+import { Tabs, router, usePathname } from "expo-router"
 import { Platform } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
@@ -39,6 +40,22 @@ const TabBarIcon = ({
   )
 }
 
+const TabBarButton = ({ onPress, ...props }: BottomTabBarButtonProps) => {
+  const pathname = usePathname()
+
+  return (
+    <Pressable
+      className="pt-3"
+      onPress={(e) => {
+        if (props.to === pathname)
+          router.replace(pathname.split("/").slice(0, 3).join("/"))
+        else onPress?.(e)
+      }}
+      {...props}
+    />
+  )
+}
+
 export default function TabsLayout() {
   const { top: topInset } = useSafeAreaInsets()
 
@@ -60,9 +77,7 @@ export default function TabsLayout() {
         },
         tabBarActiveTintColor: getColor("icon-darker"),
         tabBarInactiveTintColor: getColor("icon-inactive"),
-        tabBarButton(props) {
-          return <Pressable className="pt-3" {...props} />
-        },
+        tabBarButton: TabBarButton,
         tabBarLabel({ focused, color, position, children }) {
           return (
             <Header6 className="pt-1 font-[Mulish] text-sm" style={{ color }}>
