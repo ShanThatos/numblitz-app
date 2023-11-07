@@ -29,7 +29,6 @@ export const authFetch = async (
     await fetch(fullUrl, {
       method,
       headers: {
-        "Content-Type": "application/json",
         ...(token !== null ? { Authorization: token } : {}),
       },
       ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
