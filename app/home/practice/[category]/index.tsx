@@ -1,12 +1,11 @@
 import { FontAwesome } from "@expo/vector-icons"
 import { router, useLocalSearchParams } from "expo-router"
-import { useCallback, useState } from "react"
+import { useCallback } from "react"
 import { RefreshControl } from "react-native"
 
 import {
   FlexColCenter,
   FlexRow,
-  FlexRowCenter,
   FullFlexCol,
   FullView,
   Header2,
@@ -14,53 +13,30 @@ import {
   Image,
   Pressable,
   ScrollView,
-  View,
 } from "../../../../components/base"
 import { getColor } from "../../../../contexts/theme"
-import { useAuthFetchGet } from "../../../../hooks/authfetch"
-
-interface ProblemModel {
-  id: string
-  category_id: string
-  name: string
-  image_display: string
-  difficulty: number
-  locked: boolean
-}
-
-interface ProblemCategory {
-  id: string
-  name: string
-  display: string
-}
+import { useCategory } from "../../../../hooks/requests/category"
+import { useModels } from "../../../../hooks/requests/models"
 
 export default function CategoryModelsScreen() {
   const { category: category_id } = useLocalSearchParams<{ category: string }>()
 
-  const [refreshing, setRefreshing] = useState(false)
-
-  const { data: category, refresh: refreshCategory } =
-    useAuthFetchGet<ProblemCategory>(`/mathgen/category/${category_id}`)
-
-  const { data: models, refresh: refreshModels } = useAuthFetchGet<
-    ProblemModel[]
-  >("/mathgen/models", {
-    params: {
-      category_id: category_id || "",
-    },
-  })
+  const { loadingCategory, category, refreshCategory } =
+    useCategory(category_id)
+  const { loadingModels, models, refreshModels } = useModels({ category_id })
 
   const onRefresh = useCallback(async () => {
-    setRefreshing(true)
     await Promise.all([refreshCategory(), refreshModels()])
-    setRefreshing(false)
   }, [refreshCategory, refreshModels])
 
   return (
     <ScrollView
       className="bg-primary"
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={loadingCategory || loadingModels}
+          onRefresh={onRefresh}
+        />
       }
     >
       <FullView className="mx-auto w-full max-w-2xl p-4">
@@ -77,7 +53,7 @@ export default function CategoryModelsScreen() {
                 : "border-[#fc5454]")
             }
             onPress={() => {
-              router.push(`/home/practice/${model.id}/explanation`)
+              router.push(`/home/practice/${category_id}/${model.id}`)
             }}
           >
             <FullFlexCol className="p-2">
