@@ -1,5 +1,5 @@
 import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs/src/types"
-import { Tabs, router, usePathname } from "expo-router"
+import { Tabs, router, useNavigation, usePathname } from "expo-router"
 import { Platform } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
@@ -42,14 +42,22 @@ const TabBarIcon = ({
 
 const TabBarButton = ({ onPress, ...props }: BottomTabBarButtonProps) => {
   const pathname = usePathname()
+  const navigation = useNavigation()
 
   return (
     <Pressable
       className="pt-3"
       onPress={(e) => {
-        if (props.to === pathname)
-          router.replace(pathname.split("/").slice(0, 3).join("/"))
-        else onPress?.(e)
+        const prevState = navigation.getState()
+        onPress?.(e)
+        const nextState = navigation.getState()
+        if (
+          prevState.index === nextState.index &&
+          pathname !== `/home/${nextState.routes[nextState.index].name}`
+        )
+          router.replace(
+            pathname.substring(0, pathname.replace(/\/$/, "").lastIndexOf("/")),
+          )
       }}
       {...props}
     />
