@@ -3,16 +3,18 @@ import { katexify } from "./katexify"
 import { View, WebView } from "../base"
 
 export default function MathView({
-  html,
+  contents,
   className = "",
   options = {},
 }: MathViewProps) {
   return (
-    <View className={`flex-1 bg-transparent ${className}`}>
+    <View className={`bg-transparent ${className}`}>
       <WebView
         className="h-full w-full flex-1 bg-transparent"
+        scrollEnabled={false}
+        bounces={false}
         source={{
-          html: katexify(html, options),
+          html: katexify(contents, options),
         }}
       />
     </View>

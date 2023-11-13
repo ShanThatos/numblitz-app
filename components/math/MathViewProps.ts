@@ -1,7 +1,7 @@
 import { KatexifyOptions } from "./katexify"
 
 export default interface MathViewProps {
-  html: string
+  contents: string
   options?: KatexifyOptions
   className?: string
 }

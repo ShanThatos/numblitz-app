@@ -6,12 +6,12 @@ interface ProblemCategory {
   display: string
 }
 
-export const useCategory = (category_id: string | undefined) => {
+export const useCategory = (categoryId: string | undefined) => {
   const {
     loading: loadingCategory,
     data: category,
     refresh: refreshCategory,
-  } = useAuthFetchGet<ProblemCategory>(`/mathgen/category/${category_id}`)
+  } = useAuthFetchGet<ProblemCategory>(`/mathgen/category/${categoryId}`)
 
   return { loadingCategory, category, refreshCategory }
 }

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TextStyle } from "react-native"
 
-const CUSTOM_FONT_FAMILIES = ["Nunito", "Mulish"]
+const CUSTOM_FONT_FAMILIES = ["Nunito", "Mulish", "Katex"]
 
 export const FixedFontText = ({ style, ...restProps }: Text["props"]) => {
   const flatStyle = StyleSheet.flatten([

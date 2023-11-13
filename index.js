@@ -1,3 +1,5 @@
+import "react-native-reanimated"
+import "react-native-gesture-handler"
 import ReactNativeFeatureFlags from "react-native/Libraries/ReactNative/ReactNativeFeatureFlags"
 
 // enable the JS-side of the w3c PointerEvent implementation

@@ -19,11 +19,12 @@ import { useCategory } from "../../../../hooks/requests/category"
 import { useModels } from "../../../../hooks/requests/models"
 
 export default function CategoryModelsScreen() {
-  const { category: category_id } = useLocalSearchParams<{ category: string }>()
+  const { category: categoryId } = useLocalSearchParams<{ category: string }>()
 
-  const { loadingCategory, category, refreshCategory } =
-    useCategory(category_id)
-  const { loadingModels, models, refreshModels } = useModels({ category_id })
+  const { loadingCategory, category, refreshCategory } = useCategory(categoryId)
+  const { loadingModels, models, refreshModels } = useModels({
+    categoryId,
+  })
 
   const onRefresh = useCallback(async () => {
     await Promise.all([refreshCategory(), refreshModels()])
@@ -53,7 +54,7 @@ export default function CategoryModelsScreen() {
                 : "border-[#fc5454]")
             }
             onPress={() => {
-              router.push(`/home/practice/${category_id}/${model.id}`)
+              router.push(`/home/practice/${categoryId}/${model.id}`)
             }}
           >
             <FullFlexCol className="p-2">
@@ -72,17 +73,17 @@ export default function CategoryModelsScreen() {
             </FullFlexCol>
             <FlexColCenter className="rounded-r-lg pr-1">
               <FlexColCenter className="aspect-square w-6">
-                {model.locked ? (
-                  <FontAwesome
-                    name="lock"
-                    size={20}
-                    color={getColor("neutral-600")}
-                  />
-                ) : (
+                {model.unlocked ? (
                   <FontAwesome
                     name="chevron-right"
                     size={15}
                     color={getColor("neutral-400")}
+                  />
+                ) : (
+                  <FontAwesome
+                    name="lock"
+                    size={20}
+                    color={getColor("neutral-600")}
                   />
                 )}
               </FlexColCenter>

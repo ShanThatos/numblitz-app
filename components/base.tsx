@@ -1,4 +1,5 @@
 import { Image as RNImage } from "expo-image"
+import { MotiView as _MotiView } from "moti"
 import { styled } from "nativewind"
 import {
   View as RNView,
@@ -14,6 +15,7 @@ const textClasses = "font-sans text-base"
 
 // Typography
 export const Text = styled(FixedFontText, textClasses)
+export const KatexText = styled(Text, "font-[Katex]")
 
 export const BaseHeader = styled(Text, "font-bold")
 
@@ -49,3 +51,6 @@ export const Pressable = styled(RNPressable, "active:opacity-70")
 
 // WebView
 export const WebView = styled(RNWebView)
+
+// Moti
+export const MotiView = styled(_MotiView)

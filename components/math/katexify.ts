@@ -1,7 +1,6 @@
 import { Platform } from "react-native"
 
 export interface KatexifyOptions {
-  color?: string
   center?: boolean
   fontSize?: string
 }
@@ -16,38 +15,38 @@ export function katexify(content: string, options: KatexifyOptions = {}) {
       html * {
         user-select: none;
       }
+      html {
+        font-size: ${Platform.select({ native: "3.5em", default: "1.2em" })};
+      }
+
       html, body {
-        overflow: hidden;
         margin: 0;
         padding: 0;
         display: flex;
         width: 100%;
         height: 100%;
         background-color: #0000;
-        ${options.color ? `color: ${options.color};` : ""}
       }
-      body > div {
-        flex: 1;
+
+      body {
+        font-family: KaTeX_Main, "Times New Roman", serif;
+        font-size: ${options.fontSize || "1em"};
         ${
           options.center
             ? "display: flex; justify-content: center; align-items: center;"
             : ""
         }
       }
-      html {
-        font-size: ${Platform.select({ native: "3.5em", default: "1.2em" })};
-      }
 
       .katex {
-        font-size: ${options.fontSize || "1em"};
+        font-size: 1em;
       }
-
     </style>
 
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement(document.body, {
+        renderMathInElement(document.getElementById("katex-contents"), {
           // customised options
           // • auto-render specific keys, e.g.:
           delimiters: [
@@ -64,7 +63,7 @@ export function katexify(content: string, options: KatexifyOptions = {}) {
 
   </head>
   <body>
-      <div>${content}</div>
+      <div id="katex-contents">${content}</div>
   </body>
 </html>
 `

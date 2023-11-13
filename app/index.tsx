@@ -1,6 +1,7 @@
 import { router } from "expo-router"
 import { useEffect } from "react"
 
+import { FullFlexColCenter, Text } from "../components/base"
 import Storage from "../utils/Storage"
 
 export default function Index() {
@@ -12,5 +13,9 @@ export default function Index() {
     })
   }, [])
 
-  return null
+  return (
+    <FullFlexColCenter>
+      <Text>Loading...</Text>
+    </FullFlexColCenter>
+  )
 }

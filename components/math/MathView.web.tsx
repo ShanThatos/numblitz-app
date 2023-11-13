@@ -3,14 +3,14 @@ import { katexify } from "./katexify"
 import { View } from "../base"
 
 export default function MathView({
-  html,
+  contents,
   className = "",
   options = {},
 }: MathViewProps) {
   return (
-    <View className={`pointer-events-none flex-1 bg-transparent ${className}`}>
+    <View className={`pointer-events-none bg-transparent ${className}`}>
       <iframe
-        srcDoc={katexify(html, options)}
+        srcDoc={katexify(contents, options)}
         style={{
           border: "0",
           flex: 1,

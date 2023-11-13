@@ -98,7 +98,7 @@ export default function TabsLayout() {
         marginTop: topInset,
         borderTopColor: getColor("neutral-200"),
         borderTopWidth: 1,
-        backgroundColor: "white",
+        backgroundColor: getColor("primary"),
       }}
     >
       <Tabs.Screen

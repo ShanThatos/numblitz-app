@@ -36,10 +36,13 @@ export const authFetch = async (
   ).json()
 }
 
-export const authFetchGet = async (url: string, options: FetchOptions) => {
+export const authFetchGet = async (url: string, options: FetchOptions = {}) => {
   return await authFetch(url, { ...options, method: "GET" })
 }
 
-export const authFetchPost = async (url: string, options: FetchOptions) => {
+export const authFetchPost = async (
+  url: string,
+  options: FetchOptions = {},
+) => {
   return await authFetch(url, { ...options, method: "POST" })
 }

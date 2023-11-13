@@ -10,6 +10,10 @@ export const useLoadedFonts = () => {
     Mulish_bold: require("../../assets/fonts/mulish/Mulish_700Bold.ttf"),
     Mulish_italic: require("../../assets/fonts/mulish/Mulish_500Medium_Italic.ttf"),
     Mulish_bold_italic: require("../../assets/fonts/mulish/Mulish_700Bold_Italic.ttf"),
+    Katex_regular: require("../../assets/fonts/katex/KaTeX_Main-Regular.ttf"),
+    Katex_bold: require("../../assets/fonts/katex/KaTeX_Main-Bold.ttf"),
+    Katex_italic: require("../../assets/fonts/katex/KaTeX_Main-Italic.ttf"),
+    Katex_bold_italic: require("../../assets/fonts/katex/KaTeX_Main-BoldItalic.ttf"),
   })
 
   return [fontsLoaded]
