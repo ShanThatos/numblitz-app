@@ -43,7 +43,6 @@ export default function QuizScreen(props: QuizScreenProps) {
         <QuizKeyboard
           quizScreenProps={props}
           onEvent={(event) => {
-            console.log(event)
             inputRef.current?.handleEvent(event)
           }}
         />

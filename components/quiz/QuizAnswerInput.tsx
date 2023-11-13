@@ -1,12 +1,24 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react"
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react"
 import { Platform } from "react-native"
 
 import { QuizEvent } from "./QuizKeyboard"
 import { QuizScreenProps } from "./QuizScreen"
 import { determineAnswerFormat } from "../../utils/quiz"
-import { FlexColCenter, KatexText, View } from "../base"
+import { FlexColCenter, FlexRow, KatexText, View } from "../base"
 
-const Cursor = ({ overrideShow }: { overrideShow: boolean }) => {
+const Cursor = ({
+  overrideShow,
+  right,
+}: {
+  overrideShow: boolean
+  right: number
+}) => {
   const [show, setShow] = useState(true)
 
   useEffect(() => {
@@ -17,59 +29,83 @@ const Cursor = ({ overrideShow }: { overrideShow: boolean }) => {
   }, [])
 
   return (
-    <View className={`w-0 ${show || overrideShow ? "" : "opacity-0"}`}>
-      <KatexText className="w-0.5 bg-black text-xl"> </KatexText>
+    <View
+      className="absolute flex h-full flex-col py-1"
+      style={{ width: 2, right }}
+    >
+      <View
+        className={`w-full flex-1 bg-black ${
+          show || overrideShow ? "" : "opacity-0"
+        }`}
+      />
     </View>
   )
 }
 
-interface TextInputProps {
+interface QuizTextInputProps {
   width: number
   highlight?: boolean
   cursor?: boolean
-  rtl?: boolean
+  cursorPos?: number
   text?: string
+  sign?: boolean
 }
 const QuizTextInput = ({
   width,
   highlight,
   cursor,
-  rtl,
+  cursorPos,
   text,
-}: TextInputProps) => {
+  sign,
+}: QuizTextInputProps) => {
   const [overrideShowCursor, setOverrideShowCursor] = useState(false)
   useEffect(() => {
     if (cursor) {
       setOverrideShowCursor(true)
-      const callback = setTimeout(() => {
+      setTimeout(() => {
         setOverrideShowCursor(false)
-      }, 500)
-      return () => clearTimeout(callback)
+      }, 1000)
     }
   }, [text])
 
+  const [textWidth, setTextWidth] = useState(0)
+
   return (
     <View
-      className="flex flex-row items-center justify-end rounded border-2 border-neutral-400 bg-neutral-100 p-2"
+      className="rounded border-2 border-neutral-400 bg-neutral-100 p-2"
       style={{ width }}
     >
-      <KatexText className="text-3xl opacity-0">:</KatexText>
-      {cursor && rtl && <Cursor overrideShow={overrideShowCursor} />}
-      <KatexText
-        className={`pl-1 pr-0.5 text-3xl ${highlight ? "bg-[#30b3ff]" : ""}`}
-        numberOfLines={1}
-        ellipsizeMode="clip"
-        // @ts-ignore
-        style={Platform.select({
-          web: {
-            textOverflow: "clip",
-          },
-          native: {},
-        })}
-      >
-        {text || " "}
-      </KatexText>
-      {cursor && !rtl && <Cursor overrideShow={overrideShowCursor} />}
+      <FlexRow className="items-center justify-end">
+        <KatexText className="text-3xl opacity-0">:</KatexText>
+        {sign && <KatexText className="text-3xl">-</KatexText>}
+        <KatexText
+          onLayout={(event) => {
+            setTextWidth(event.nativeEvent.layout.width)
+          }}
+          className={`text-3xl ${highlight ? "bg-[#30b3ff]" : ""}`}
+          numberOfLines={1}
+          ellipsizeMode="clip"
+          // @ts-ignore
+          style={Platform.select({
+            web: {
+              textOverflow: "clip",
+            },
+            native: {},
+          })}
+        >
+          {text || " "}
+        </KatexText>
+        {cursor && cursorPos !== undefined && (
+          <Cursor
+            overrideShow={overrideShowCursor}
+            right={
+              text
+                ? textWidth - textWidth * (cursorPos / (text?.length || 1)) - 1
+                : 0
+            }
+          />
+        )}
+      </FlexRow>
     </View>
   )
 }
@@ -88,59 +124,104 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
     let format = model.answer_format
     if (format === "auto") format = determineAnswerFormat(answer)
 
+    const [negSign, setNegSign] = useState(false)
     const [texts, setTexts] = useState(["", "", ""])
     const [highlight, setHighlight] = useState(false)
     const [current, setCurrent] = useState(0)
+    const [cursorPos, setCursorPos] = useState(0)
+
+    const reset = useCallback(() => {
+      setNegSign(false)
+      setTexts(["", "", ""])
+      setHighlight(false)
+      setCurrent(0)
+      setCursorPos(0)
+    }, [])
 
     useImperativeHandle(ref, () => ({
+      reset,
       handleEvent: (event) => {
         let showHighlight = false
-        if (event.type === "clear") {
-          setTexts(["", "", ""])
-        } else if (event.type === "delete") {
+        if (event.type === "clear") reset()
+        else if (event.type === "delete") {
           setTexts((prev) => {
             const newPrev = [...prev]
-            if (highlight) newPrev[current] = ""
-            else if (model.rtl) newPrev[current] = newPrev[current].slice(1)
-            else newPrev[current] = newPrev[current].slice(0, -1)
+            if (highlight) {
+              newPrev[current] = ""
+              setCursorPos(0)
+            } else if (model.rtl)
+              newPrev[current] =
+                newPrev[current].slice(0, cursorPos) +
+                newPrev[current].slice(cursorPos + 1)
+            else {
+              newPrev[current] =
+                newPrev[current].slice(0, Math.max(cursorPos - 1, 0)) +
+                newPrev[current].slice(cursorPos)
+              setCursorPos(Math.max(cursorPos - 1, 0))
+            }
             return newPrev
           })
+        } else if (event.type === "sign") {
+          setNegSign((prev) => !prev)
         } else if (event.type === "decimal" || event.type === "number") {
           setTexts((prev) => {
             const newPrev = [...prev]
-            if (highlight) newPrev[current] = event.value + ""
-            else if (model.rtl)
-              newPrev[current] = event.value + newPrev[current]
-            else newPrev[current] += event.value
+            if (highlight) {
+              newPrev[current] = event.value + ""
+              setCursorPos(model.rtl ? 0 : 1)
+            } else {
+              newPrev[current] =
+                newPrev[current].slice(0, cursorPos) +
+                event.value +
+                newPrev[current].slice(cursorPos)
+              if (!model.rtl) setCursorPos((prev) => prev + 1)
+            }
             return newPrev
           })
         } else if (event.type === "next") {
-          setCurrent(
-            (prev) =>
+          setCurrent((prev) => {
+            const next =
               (prev + 1) %
               (["number", "decimal", "money"].includes(format)
                 ? 1
                 : ["fraction"].includes(format)
                 ? 2
-                : 3),
-          )
+                : 3)
+
+            if (model.rtl) setCursorPos(0)
+            else setCursorPos(texts[next].length)
+            return next
+          })
           showHighlight = true
-        } else {
-          return
+        } else if (event.type === "cursor-start") setCursorPos(0)
+        else if (event.type === "cursor-end")
+          setCursorPos(texts[current].length)
+        else if (event.type === "submit") {
+          let answer = ""
+          if (format === "number" || format === "decimal" || format === "money")
+            answer = `$${negSign ? "-" : ""}${texts[0]}$`
+          else if (format === "fraction")
+            answer = `$${negSign ? "-" : ""}\\frac{${texts[0]}}{${texts[1]}}$`
+          else if (format === "mixed")
+            answer = `$${negSign ? "-" : ""}${texts[2]}\\frac{${texts[0]}}{${
+              texts[1]
+            }}$`
+          quizScreenProps.submitAnswer(answer)
         }
         setHighlight(showHighlight)
       },
     }))
 
-    if (format === "number" || format === "decimal") {
+    if (format === "number" || format === "decimal" || format === "money") {
       return (
         <FlexColCenter>
           <QuizTextInput
             width={answer.length * 20}
-            rtl={model.rtl}
+            sign={negSign}
             text={texts[0]}
             highlight={highlight && current === 0}
             cursor={!highlight && current === 0}
+            cursorPos={cursorPos}
           />
         </FlexColCenter>
       )
