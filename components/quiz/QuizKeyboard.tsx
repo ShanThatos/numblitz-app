@@ -1,4 +1,5 @@
 import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons"
+import { useState } from "react"
 import { Platform } from "react-native"
 
 import { QuizScreenProps } from "./QuizScreen"
@@ -33,12 +34,20 @@ const QuizKeyboardKey = ({
   quizScreenProps,
   onPress,
 }: QuizKeyboardKeyProps) => {
+  const [disabled, setDisabled] = useState(false)
+
   return (
     <FullView className="p-1">
       <Pressable
         className="flex flex-1 items-center justify-center overflow-visible rounded-xl border-2 border-icon bg-white p-0.5 shadow-sm shadow-red-200 hover:shadow-lg active:bg-neutral-300"
         onPress={() => {
-          if (onPress) onPress({ type, value })
+          if (disabled) return
+          try {
+            setDisabled(true)
+            if (onPress) onPress({ type, value })
+          } finally {
+            setDisabled(false)
+          }
         }}
       >
         {type === "delete" ? (

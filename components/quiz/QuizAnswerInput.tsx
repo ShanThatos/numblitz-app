@@ -113,6 +113,8 @@ const QuizTextInput = ({
 }
 
 export interface QuizAnswerInputHandle {
+  reset: () => void
+  getValue: () => string
   handleEvent: (event: QuizEvent) => void
 }
 
@@ -140,8 +142,21 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
       setCursorPos(0)
     }, [])
 
+    const getValue = useCallback(() => {
+      if (format === "number" || format === "decimal" || format === "money")
+        return `$${negSign ? "-" : ""}${texts[0]}$`
+      else if (format === "fraction")
+        return `$${negSign ? "-" : ""}\\frac{${texts[0]}}{${texts[1]}}$`
+      else if (format === "mixed")
+        return `$${negSign ? "-" : ""}${texts[2]}\\frac{${texts[0]}}{${
+          texts[1]
+        }}$`
+      throw new Error("Invalid format")
+    }, [format, negSign, texts])
+
     useImperativeHandle(ref, () => ({
       reset,
+      getValue,
       handleEvent: (event) => {
         let showHighlight = false
         if (event.type === "clear") reset()
@@ -198,18 +213,6 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
         } else if (event.type === "cursor-start") setCursorPos(0)
         else if (event.type === "cursor-end")
           setCursorPos(texts[current].length)
-        else if (event.type === "submit") {
-          let answer = ""
-          if (format === "number" || format === "decimal" || format === "money")
-            answer = `$${negSign ? "-" : ""}${texts[0]}$`
-          else if (format === "fraction")
-            answer = `$${negSign ? "-" : ""}\\frac{${texts[0]}}{${texts[1]}}$`
-          else if (format === "mixed")
-            answer = `$${negSign ? "-" : ""}${texts[2]}\\frac{${texts[0]}}{${
-              texts[1]
-            }}$`
-          quizScreenProps.submitAnswer(answer)
-        }
         setHighlight(showHighlight)
       },
     }))
