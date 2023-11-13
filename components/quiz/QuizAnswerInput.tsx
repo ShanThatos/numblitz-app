@@ -10,7 +10,7 @@ import { Platform } from "react-native"
 import { QuizEvent } from "./QuizKeyboard"
 import { QuizScreenProps } from "./QuizScreen"
 import { determineAnswerFormat } from "../../utils/quiz"
-import { FlexColCenter, FlexRow, KatexText, View } from "../base"
+import { FlexColCenter, FlexRow, FlexRowCenter, KatexText, View } from "../base"
 
 const Cursor = ({
   overrideShow,
@@ -66,7 +66,7 @@ const QuizTextInput = ({
         setOverrideShowCursor(false)
       }, 1000)
     }
-  }, [text])
+  }, [text, cursorPos])
 
   const [textWidth, setTextWidth] = useState(0)
 
@@ -224,6 +224,65 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
             cursorPos={cursorPos}
           />
         </FlexColCenter>
+      )
+    } else if (format === "fraction") {
+      return (
+        <FlexColCenter
+          style={{
+            gap: 5,
+          }}
+        >
+          <QuizTextInput
+            width={80}
+            sign={negSign}
+            text={texts[0]}
+            highlight={highlight && current === 0}
+            cursor={!highlight && current === 0}
+            cursorPos={cursorPos}
+          />
+          <View className="h-1 w-24 bg-black" />
+          <QuizTextInput
+            width={80}
+            text={texts[1]}
+            highlight={highlight && current === 1}
+            cursor={!highlight && current === 1}
+            cursorPos={cursorPos}
+          />
+        </FlexColCenter>
+      )
+    } else if (format === "mixed") {
+      return (
+        <FlexRowCenter style={{ gap: 10 }}>
+          <QuizTextInput
+            width={Math.max(answer.indexOf("\\frac"), 4) * 20}
+            sign={negSign}
+            text={texts[2]}
+            highlight={highlight && current === 2}
+            cursor={!highlight && current === 2}
+            cursorPos={cursorPos}
+          />
+          <FlexColCenter
+            style={{
+              gap: 5,
+            }}
+          >
+            <QuizTextInput
+              width={80}
+              text={texts[0]}
+              highlight={highlight && current === 0}
+              cursor={!highlight && current === 0}
+              cursorPos={cursorPos}
+            />
+            <View className="h-1 w-24 bg-black" />
+            <QuizTextInput
+              width={80}
+              text={texts[1]}
+              highlight={highlight && current === 1}
+              cursor={!highlight && current === 1}
+              cursorPos={cursorPos}
+            />
+          </FlexColCenter>
+        </FlexRowCenter>
       )
     }
 

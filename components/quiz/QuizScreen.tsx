@@ -23,9 +23,9 @@ export default function QuizScreen(props: QuizScreenProps) {
   const inputRef = useRef<QuizAnswerInputHandle>(null)
 
   return (
-    <FullFlexCol className="bg-primary p-5" style={{ gap: 20 }}>
+    <FullFlexCol className="bg-primary p-5" style={{ gap: 10 }}>
       <MathView
-        className="h-24 max-w-full"
+        className="h-20 max-w-full"
         contents={props.question}
         options={{ center: true, fontSize: "1.5em" }}
       />

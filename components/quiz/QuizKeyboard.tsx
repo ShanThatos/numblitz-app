@@ -1,4 +1,5 @@
 import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons"
+import { Platform } from "react-native"
 
 import { QuizScreenProps } from "./QuizScreen"
 import { FlexCol, FullFlexRow, FullView, KatexText, Pressable } from "../base"
@@ -85,7 +86,11 @@ export default function QuizKeyboard({
   )
 
   return (
-    <FlexCol className="mx-auto aspect-[.75] w-80">
+    <FlexCol
+      className={`mx-auto aspect-[.75] max-w-xs ${
+        Platform.OS === "web" ? "w-full" : ""
+      }`}
+    >
       <FullFlexRow>
         <QuizKey type="clear" value="C" />
         <QuizKey
@@ -105,7 +110,7 @@ export default function QuizKeyboard({
       <FullFlexRow>
         <QuizKey type="decimal" value="." />
         <QuizKey value="0" />
-        <QuizKey type="next" value="↻" />
+        <QuizKey type="next" value="⟳" />
       </FullFlexRow>
       <FullFlexRow>
         <QuizKey type="cursor-start" />
