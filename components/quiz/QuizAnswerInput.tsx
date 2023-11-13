@@ -44,19 +44,21 @@ const Cursor = ({
 
 interface QuizTextInputProps {
   width: number
+  sign?: boolean
+  text?: string
+  textSize?: string
   highlight?: boolean
   cursor?: boolean
   cursorPos?: number
-  text?: string
-  sign?: boolean
 }
 const QuizTextInput = ({
   width,
+  sign,
+  text,
+  textSize = "text-3xl",
   highlight,
   cursor,
   cursorPos,
-  text,
-  sign,
 }: QuizTextInputProps) => {
   const [overrideShowCursor, setOverrideShowCursor] = useState(false)
   useEffect(() => {
@@ -76,13 +78,13 @@ const QuizTextInput = ({
       style={{ width }}
     >
       <FlexRow className="items-center justify-end">
-        <KatexText className="text-3xl opacity-0">:</KatexText>
-        {sign && <KatexText className="text-3xl">-</KatexText>}
+        <KatexText className={`${textSize} opacity-0`}>:</KatexText>
+        {sign && <KatexText className={textSize}>-</KatexText>}
         <KatexText
           onLayout={(event) => {
             setTextWidth(event.nativeEvent.layout.width)
           }}
-          className={`text-3xl ${highlight ? "bg-[#30b3ff]" : ""}`}
+          className={`${textSize} ${highlight ? "bg-[#30b3ff]" : ""}`}
           numberOfLines={1}
           ellipsizeMode="clip"
           // @ts-ignore
@@ -233,17 +235,19 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
           }}
         >
           <QuizTextInput
-            width={80}
+            width={70}
             sign={negSign}
             text={texts[0]}
+            textSize="text-2xl"
             highlight={highlight && current === 0}
             cursor={!highlight && current === 0}
             cursorPos={cursorPos}
           />
-          <View className="h-1 w-24 bg-black" />
+          <View className="h-0.5 w-24 bg-black" />
           <QuizTextInput
-            width={80}
+            width={70}
             text={texts[1]}
+            textSize="text-2xl"
             highlight={highlight && current === 1}
             cursor={!highlight && current === 1}
             cursorPos={cursorPos}
@@ -254,9 +258,10 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
       return (
         <FlexRowCenter style={{ gap: 10 }}>
           <QuizTextInput
-            width={Math.max(answer.indexOf("\\frac"), 4) * 20}
+            width={Math.max(answer.indexOf("\\frac"), 4) * 18}
             sign={negSign}
             text={texts[2]}
+            textSize="text-2xl"
             highlight={highlight && current === 2}
             cursor={!highlight && current === 2}
             cursorPos={cursorPos}
@@ -267,16 +272,18 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
             }}
           >
             <QuizTextInput
-              width={80}
+              width={70}
               text={texts[0]}
+              textSize="text-2xl"
               highlight={highlight && current === 0}
               cursor={!highlight && current === 0}
               cursorPos={cursorPos}
             />
-            <View className="h-1 w-24 bg-black" />
+            <View className="h-0.5 w-24 bg-black" />
             <QuizTextInput
-              width={80}
+              width={70}
               text={texts[1]}
+              textSize="text-2xl"
               highlight={highlight && current === 1}
               cursor={!highlight && current === 1}
               cursorPos={cursorPos}
