@@ -1,0 +1,23 @@
+
+
+Backend
+  routes:
+    get questions for a model
+    get model progress
+    update model progress
+
+
+Frontend
+  store start time
+  keep asking for questions
+  +5 for correct, -4 for incorrect
+  get to 50 points to complete round
+  increment progress
+  update average time
+
+  QuizScreen
+    question
+    answerFormat
+    rtl
+    units
+    onSubmit
