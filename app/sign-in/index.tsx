@@ -8,6 +8,7 @@ import {
   FlexColCenter,
   FlexRowCenter,
   FullFlexColCenter,
+  FullView,
   Header1,
   Image,
   Pressable,
@@ -39,7 +40,7 @@ export default function SignInIndex() {
   }, [])
 
   return (
-    <>
+    <FullView className="bg-primary">
       <FlexRowCenter className="mt-[30vh]">
         <Image
           className="mr-2 aspect-square w-10"
@@ -65,6 +66,6 @@ export default function SignInIndex() {
           <Text className="text-slate-600">I'll sign in later</Text>
         </Pressable>
       </FullFlexColCenter>
-    </>
+    </FullView>
   )
 }
