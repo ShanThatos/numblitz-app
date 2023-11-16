@@ -13,8 +13,8 @@ export interface ProblemModel {
 }
 
 interface ModelsParams {
-  categoryId?: string
-  modelIds?: string
+  category_id?: string
+  model_ids?: string
 }
 
 export const useModels = (params: ModelsParams) => {
@@ -35,7 +35,7 @@ export const useModel = (modelId: string | undefined) => {
     data: models,
     refresh: refreshModel,
   } = useAuthFetchGet<ProblemModel[]>("/mathgen/models", {
-    params: { modelIds: modelId || "" },
+    params: { model_ids: modelId || "" },
   })
 
   const model = models && models[0]

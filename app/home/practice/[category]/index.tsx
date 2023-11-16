@@ -23,7 +23,7 @@ export default function CategoryModelsScreen() {
 
   const { loadingCategory, category, refreshCategory } = useCategory(categoryId)
   const { loadingModels, models, refreshModels } = useModels({
-    categoryId,
+    category_id: categoryId,
   })
 
   const onRefresh = useCallback(async () => {
