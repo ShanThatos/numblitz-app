@@ -6,17 +6,19 @@ import { RefreshControl } from "react-native"
 import {
   FlexColCenter,
   FlexRow,
+  FlexRowCenter,
   FullFlexCol,
   FullView,
   Header2,
   Header4,
+  Header5,
   Image,
   Pressable,
   ScrollView,
 } from "../../../../components/base"
 import { getColor } from "../../../../contexts/theme"
 import { useCategory } from "../../../../hooks/requests/category"
-import { useModels } from "../../../../hooks/requests/models"
+import { useModelProgress, useModels } from "../../../../hooks/requests/models"
 
 export default function CategoryModelsScreen() {
   const { category: categoryId } = useLocalSearchParams<{ category: string }>()
@@ -26,9 +28,13 @@ export default function CategoryModelsScreen() {
     category_id: categoryId,
   })
 
+  const { progress, refreshProgress } = useModelProgress(
+    models?.map((m) => m.id) ?? [],
+  )
+
   const onRefresh = useCallback(async () => {
-    await Promise.all([refreshCategory(), refreshModels()])
-  }, [refreshCategory, refreshModels])
+    await Promise.all([refreshCategory(), refreshModels(), refreshProgress()])
+  }, [refreshCategory, refreshModels, refreshProgress])
 
   return (
     <ScrollView
@@ -59,7 +65,15 @@ export default function CategoryModelsScreen() {
             }}
           >
             <FullFlexCol className="p-2">
-              <Header4 className="mr-auto">{model.name}</Header4>
+              <Header4 className="mr-auto">
+                {model.name}
+                {progress && model.id in progress && progress[model.id] && (
+                  <Header5 className="text-blue-400">
+                    {" "}
+                    {Math.min(progress[model.id], 5)}/5
+                  </Header5>
+                )}
+              </Header4>
               {model.image_display !== "" && (
                 <FlexRow className="ml-2 h-7">
                   <Image
@@ -72,7 +86,7 @@ export default function CategoryModelsScreen() {
                 </FlexRow>
               )}
             </FullFlexCol>
-            <FlexColCenter className="rounded-r-lg pr-1">
+            <FlexRowCenter className="pr-1">
               <FlexColCenter className="aspect-square w-6">
                 {model.unlocked ? (
                   <FontAwesome
@@ -88,7 +102,7 @@ export default function CategoryModelsScreen() {
                   />
                 )}
               </FlexColCenter>
-            </FlexColCenter>
+            </FlexRowCenter>
           </Pressable>
         ))}
       </FullView>

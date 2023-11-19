@@ -74,12 +74,14 @@ const useModelQuiz = (modelId: string) => {
       const averageTime =
         (Date.now() - quizStartTime) / 1000 / finalSubmissions.length
       setAverageTime(averageTime)
-      const { progress } = await authFetchGet(
-        `/mathgen/modelprogress/${modelId}`,
-      )
+      const progressData = await authFetchGet(`/mathgen/modelprogress`, {
+        params: {
+          model_ids: modelId,
+        },
+      })
       authFetchPost(`/mathgen/modelprogress/${modelId}`, {
         params: {
-          progress: progress + 1,
+          progress: progressData[modelId] + 1,
           average_time: averageTime.toFixed(1),
         },
       })

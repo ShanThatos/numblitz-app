@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react"
+
+import { authFetchGet } from "../../utils/Query"
 import { useAuthFetchGet } from "../authfetch"
 
 type AnswerFormat =
@@ -66,4 +69,34 @@ export const useExplanation = (modelId: string | undefined) => {
   } = useAuthFetchGet<string>(`/mathgen/model/${modelId}/explanation`)
 
   return { loadingExplanation, explanation, refreshExplanation }
+}
+
+export const useModelProgress = (modelIds: string[]) => {
+  const [loadedModelIds, setLoadedModelIds] = useState<string | null>(null)
+  const [progress, setProgress] = useState<Record<string, number>>({})
+
+  const modelIdsString = modelIds.join(",")
+
+  const refreshProgress = async () => {
+    setLoadedModelIds(modelIdsString)
+    if (modelIdsString !== "") {
+      setProgress(
+        await authFetchGet("/mathgen/modelprogress", {
+          params: {
+            model_ids: modelIdsString,
+          },
+        }),
+      )
+    }
+  }
+
+  useEffect(() => {
+    if (loadedModelIds !== modelIdsString) refreshProgress()
+  }, [modelIdsString])
+
+  useEffect(() => {
+    if (loadedModelIds !== modelIdsString) refreshProgress()
+  }, [])
+
+  return { progress, refreshProgress }
 }
