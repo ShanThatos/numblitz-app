@@ -8,8 +8,7 @@ import {
 import { Platform } from "react-native"
 
 import { QuizEvent } from "./QuizKeyboard"
-import { QuizScreenProps } from "./QuizScreen"
-import { determineAnswerFormat } from "../../utils/quiz"
+import { MathProblem, ProblemModel } from "../../hooks/requests/models"
 import { FlexColCenter, FlexRow, FlexRowCenter, KatexText, View } from "../base"
 
 const Cursor = ({
@@ -119,14 +118,13 @@ export interface QuizAnswerInputHandle {
 }
 
 interface QuizAnswerInputProps {
-  quizScreenProps: QuizScreenProps
+  model: ProblemModel
+  problem: MathProblem
 }
 
 const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
-  function ({ quizScreenProps }: QuizAnswerInputProps, ref) {
-    const { model, answer } = quizScreenProps
-    let format = model.answer_format
-    if (format === "auto") format = determineAnswerFormat(answer)
+  function ({ problem }: QuizAnswerInputProps, ref) {
+    const { format, answer, rtl } = problem
 
     const [negSign, setNegSign] = useState(false)
     const [texts, setTexts] = useState(["", "", ""])
@@ -148,8 +146,8 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
       else if (format === "fraction")
         return `$${negSign ? "-" : ""}\\frac{${texts[0]}}{${texts[1]}}$`
       else if (format === "mixed")
-        return `$${negSign ? "-" : ""}${texts[2]}\\frac{${texts[0]}}{${
-          texts[1]
+        return `$${negSign ? "-" : ""}${texts[0]}\\frac{${texts[1]}}{${
+          texts[2]
         }}$`
       throw new Error("Invalid format")
     }, [format, negSign, texts])
@@ -166,7 +164,7 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
             if (highlight) {
               newPrev[current] = ""
               setCursorPos(0)
-            } else if (model.rtl)
+            } else if (rtl)
               newPrev[current] =
                 newPrev[current].slice(0, cursorPos) +
                 newPrev[current].slice(cursorPos + 1)
@@ -185,13 +183,13 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
             const newPrev = [...prev]
             if (highlight) {
               newPrev[current] = event.value + ""
-              setCursorPos(model.rtl ? 0 : 1)
+              setCursorPos(rtl ? 0 : 1)
             } else {
               newPrev[current] =
                 newPrev[current].slice(0, cursorPos) +
                 event.value +
                 newPrev[current].slice(cursorPos)
-              if (!model.rtl) setCursorPos((prev) => prev + 1)
+              if (!rtl) setCursorPos((prev) => prev + 1)
             }
             return newPrev
           })
@@ -205,7 +203,7 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
                 ? 2
                 : 3)
 
-            if (model.rtl) setCursorPos(0)
+            if (rtl) setCursorPos(0)
             else setCursorPos(texts[next].length)
             return next
           })
@@ -263,10 +261,10 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
           <QuizTextInput
             width={Math.max(answer.indexOf("\\frac"), 4) * 18}
             sign={negSign}
-            text={texts[2]}
+            text={texts[0]}
             textSize="text-2xl"
-            highlight={highlight && current === 2}
-            cursor={!highlight && current === 2}
+            highlight={highlight && current === 0}
+            cursor={!highlight && current === 0}
             cursorPos={cursorPos}
           />
           <FlexColCenter
@@ -276,19 +274,19 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
           >
             <QuizTextInput
               width={70}
-              text={texts[0]}
+              text={texts[1]}
               textSize="text-2xl"
-              highlight={highlight && current === 0}
-              cursor={!highlight && current === 0}
+              highlight={highlight && current === 1}
+              cursor={!highlight && current === 1}
               cursorPos={cursorPos}
             />
             <View className="h-0.5 w-24 bg-black" />
             <QuizTextInput
               width={70}
-              text={texts[1]}
+              text={texts[2]}
               textSize="text-2xl"
-              highlight={highlight && current === 1}
-              cursor={!highlight && current === 1}
+              highlight={highlight && current === 2}
+              cursor={!highlight && current === 2}
               cursorPos={cursorPos}
             />
           </FlexColCenter>

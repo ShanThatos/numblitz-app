@@ -2,7 +2,7 @@ import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons"
 import { useState } from "react"
 import { Platform } from "react-native"
 
-import { QuizScreenProps } from "./QuizScreen"
+import { MathProblem } from "../../hooks/requests/models"
 import { FlexCol, FullFlexRow, FullView, KatexText, Pressable } from "../base"
 
 export interface QuizEvent {
@@ -23,7 +23,7 @@ interface QuizKeyboardKeyProps {
   classname?: string
   type?: QuizEvent["type"]
   value?: string
-  quizScreenProps?: QuizScreenProps
+  rtl?: boolean
   onPress?: (event: QuizEvent) => void
 }
 
@@ -31,7 +31,7 @@ const QuizKeyboardKey = ({
   classname,
   type = "number",
   value,
-  quizScreenProps,
+  rtl,
   onPress,
 }: QuizKeyboardKeyProps) => {
   const [disabled, setDisabled] = useState(false)
@@ -56,7 +56,7 @@ const QuizKeyboardKey = ({
             size={24}
             color="black"
             style={{
-              transform: [{ scaleX: quizScreenProps?.model.rtl ? -1 : 1 }],
+              transform: [{ scaleX: rtl ? -1 : 1 }],
             }}
           />
         ) : type === "cursor-start" ? (
@@ -82,14 +82,11 @@ const QuizKeyboardKey = ({
 }
 
 interface QuizKeyboardProps {
-  quizScreenProps: QuizScreenProps
+  problem: MathProblem
   onEvent?: (event: QuizEvent) => void
 }
 
-export default function QuizKeyboard({
-  quizScreenProps,
-  onEvent,
-}: QuizKeyboardProps) {
+export default function QuizKeyboard({ problem, onEvent }: QuizKeyboardProps) {
   const QuizKey = (props: QuizKeyboardKeyProps) => (
     <QuizKeyboardKey {...props} onPress={onEvent} />
   )
@@ -107,7 +104,7 @@ export default function QuizKeyboard({
           classname="font-bold pb-0.5 text-2xl"
           value="+/−"
         />
-        <QuizKey type="delete" quizScreenProps={quizScreenProps} />
+        <QuizKey type="delete" rtl={problem.rtl} />
       </FullFlexRow>
       {[1, 4, 7].map((i) => (
         <FullFlexRow key={`digits-row-${i}`}>

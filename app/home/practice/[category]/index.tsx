@@ -54,7 +54,8 @@ export default function CategoryModelsScreen() {
                 : "border-[#fc5454]")
             }
             onPress={() => {
-              router.push(`/home/practice/${categoryId}/${model.id}`)
+              if (model.unlocked)
+                router.push(`/home/practice/${categoryId}/${model.id}`)
             }}
           >
             <FullFlexCol className="p-2">

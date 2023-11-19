@@ -3,7 +3,7 @@ import { useRef, useState } from "react"
 
 import QuizAnswerInput, { QuizAnswerInputHandle } from "./QuizAnswerInput"
 import QuizKeyboard from "./QuizKeyboard"
-import { ProblemModel } from "../../hooks/requests/models"
+import { MathProblem, ProblemModel } from "../../hooks/requests/models"
 import {
   FlexRowCenter,
   FullFlexCol,
@@ -17,11 +17,14 @@ import MathView from "../math/MathView"
 export interface QuizScreenProps {
   submitAnswer: (answer: string) => boolean
   model: ProblemModel
-  question: string
-  answer: string
+  problem: MathProblem
 }
 
-export default function QuizScreen(props: QuizScreenProps) {
+export default function QuizScreen({
+  model,
+  problem,
+  submitAnswer,
+}: QuizScreenProps) {
   const inputRef = useRef<QuizAnswerInputHandle>(null)
   const [result, setResult] = useState<"correct" | "incorrect" | "">("")
   const [resultTimeout, setResultTimeout] = useState<NodeJS.Timeout | null>(
@@ -55,27 +58,27 @@ export default function QuizScreen(props: QuizScreenProps) {
 
       <MathView
         className="h-20 max-w-full"
-        contents={props.question}
+        contents={problem.question}
         options={{ center: true, fontSize: "1.5em" }}
       />
-      <FlexRowCenter>
-        <QuizAnswerInput quizScreenProps={props} ref={inputRef} />
-        {props.model.units && (
+      <FlexRowCenter className="h-28">
+        <QuizAnswerInput model={model} problem={problem} ref={inputRef} />
+        {problem.units && (
           <View className="w-0 overflow-visible">
             <KatexText className="w-40 pl-2 text-3xl">
-              {props.model.units}
+              {problem.units}
             </KatexText>
           </View>
         )}
       </FlexRowCenter>
       <FullFlexColCenter>
         <QuizKeyboard
-          quizScreenProps={props}
+          problem={problem}
           onEvent={(event) => {
             if (event.type === "submit") {
               setResult("")
               const answer = inputRef.current?.getValue() || ""
-              const isCorrect = props.submitAnswer(answer)
+              const isCorrect = submitAnswer(answer)
               setTimeout(() => {
                 setResult(isCorrect ? "correct" : "incorrect")
                 if (resultTimeout) clearTimeout(resultTimeout)

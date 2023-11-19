@@ -15,13 +15,8 @@ import {
   View,
 } from "../../../../../components/base"
 import QuizScreen from "../../../../../components/quiz/QuizScreen"
-import { useModel } from "../../../../../hooks/requests/models"
+import { MathProblem, useModel } from "../../../../../hooks/requests/models"
 import { authFetchGet, authFetchPost } from "../../../../../utils/Query"
-
-export interface MathProblem {
-  question: string
-  answer: string
-}
 
 const useModelQuiz = (modelId: string) => {
   const { model, refreshModel } = useModel(modelId)
@@ -183,8 +178,7 @@ export default function ModelQuizScreen() {
       <QuizScreen
         submitAnswer={submitAnswer}
         model={model}
-        question={problems[current].question}
-        answer={problems[current].answer}
+        problem={problems[current]}
       />
     )
   else if (state === "finished")

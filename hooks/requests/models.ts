@@ -1,5 +1,21 @@
 import { useAuthFetchGet } from "../authfetch"
 
+type AnswerFormat =
+  | "auto"
+  | "number"
+  | "decimal"
+  | "money"
+  | "fraction"
+  | "mixed"
+
+export interface MathProblem {
+  question: string
+  answer: string
+  format: AnswerFormat
+  units: string
+  rtl: boolean
+}
+
 export interface ProblemModel {
   id: string
   category_id: string
@@ -7,7 +23,7 @@ export interface ProblemModel {
   image_display: string
   difficulty: number
   unlocked: boolean
-  answer_format: "auto" | "number" | "decimal" | "money" | "fraction" | "mixed"
+  answer_format: AnswerFormat
   rtl: boolean
   units: string
 }
