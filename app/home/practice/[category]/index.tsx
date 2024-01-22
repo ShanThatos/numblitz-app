@@ -1,7 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons"
 import { router, useLocalSearchParams } from "expo-router"
 import { useCallback } from "react"
-import { RefreshControl } from "react-native"
+import { RefreshControl, Text as RNText } from "react-native"
 
 import {
   FlexColCenter,
@@ -65,15 +65,31 @@ export default function CategoryModelsScreen() {
             }}
           >
             <FullFlexCol className="p-2">
-              <Header4 className="mr-auto">
-                {model.name}
-                {progress && model.id in progress && progress[model.id] && (
-                  <Header5 className="text-blue-400">
-                    {" "}
-                    {Math.min(progress[model.id], 5)}/5
-                  </Header5>
+              <FlexRow>
+                <Header4>{model.name}</Header4>
+                {progress && progress[model.id] && (
+                  <FullView>
+                    <Header5 adjustsFontSizeToFit numberOfLines={1}>
+                      <RNText style={{ color: getColor("blue-400") }}>
+                        {"  "}
+                        {Math.min(progress[model.id].progress, 5)}/5
+                      </RNText>
+                      <RNText
+                        style={{
+                          color: getColor(
+                            progress[model.id].average <= 8
+                              ? "green-600"
+                              : "red-700",
+                          ),
+                        }}
+                      >
+                        {"  Avg: "}
+                        {progress[model.id].average.toFixed(1)}s
+                      </RNText>
+                    </Header5>
+                  </FullView>
                 )}
-              </Header4>
+              </FlexRow>
               {model.image_display !== "" && (
                 <FlexRow className="ml-2 h-7">
                   <Image

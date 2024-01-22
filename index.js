@@ -10,4 +10,5 @@ ReactNativeFeatureFlags.shouldEmitW3CPointerEvents = () => true
 ReactNativeFeatureFlags.shouldPressibilityUseW3CPointerEventsForHover = () =>
   true
 
+import 'react-native-url-polyfill/auto';
 import "expo-router/entry"

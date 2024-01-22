@@ -2,7 +2,6 @@ import * as Linking from "expo-linking"
 import { router } from "expo-router"
 import * as WebBrowser from "expo-web-browser"
 import { useCallback } from "react"
-import { URL, URLSearchParams } from "react-native-url-polyfill"
 
 import {
   FlexColCenter,
@@ -14,30 +13,22 @@ import {
   Pressable,
   Text,
 } from "../../components/base"
-import SocialButton from "../../components/socialbuttons/SocialButton"
-import { API_URL } from "../../utils/Query"
+import SocialButton from "../../components/socials/SocialButton"
+import { useUser } from "../../contexts/user"
 import Storage from "../../utils/Storage"
 
 WebBrowser.maybeCompleteAuthSession()
 
 export default function SignInIndex() {
-  const signIn = useCallback(async (provider: string) => {
-    const baseUrl = API_URL + `/login/${provider}?`
-    const url =
-      baseUrl +
-      new URLSearchParams({
-        redirect: Linking.createURL("/sign-in"),
-      }).toString()
-
-    const result = await WebBrowser.openAuthSessionAsync(url)
-    if (result.type === "success") {
-      const token = new URL(result.url).searchParams.get("token")
-      if (token) {
-        await Storage.setItem("nb-jwt-token", token)
+  const { signIn: origSignIn } = useUser()
+  const signIn = useCallback(
+    async (provider: string) => {
+      await origSignIn(provider, Linking.createURL("/sign-in"), () => {
         router.replace("/")
-      }
-    }
-  }, [])
+      })
+    },
+    [origSignIn],
+  )
 
   return (
     <FullView className="bg-primary">

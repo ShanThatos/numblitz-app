@@ -81,7 +81,7 @@ const useModelQuiz = (modelId: string) => {
       })
       authFetchPost(`/mathgen/modelprogress/${modelId}`, {
         params: {
-          progress: progressData[modelId] + 1,
+          progress: (progressData[modelId]?.progress ?? 0) + 1,
           average_time: averageTime.toFixed(1),
         },
       })

@@ -73,7 +73,9 @@ export const useExplanation = (modelId: string | undefined) => {
 
 export const useModelProgress = (modelIds: string[]) => {
   const [loadedModelIds, setLoadedModelIds] = useState<string | null>(null)
-  const [progress, setProgress] = useState<Record<string, number>>({})
+  const [progress, setProgress] = useState<
+    Record<string, { progress: number; average: number }>
+  >({})
 
   const modelIdsString = modelIds.join(",")
 
