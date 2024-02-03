@@ -6,7 +6,6 @@ import {
   useContext,
   useState,
 } from "react"
-// import { URL, URLSearchParams } from "react-native-url-polyfill"
 
 import { API_URL, authFetchGet } from "../utils/Query"
 import Storage from "../utils/Storage"
@@ -18,16 +17,12 @@ export interface User {
 }
 
 interface UserContextType {
-  signIn: (
-    provider: string,
-    redirect: string,
-    onSuccess: () => void,
-  ) => Promise<void>
-  logout?: () => void
+  signIn: (provider: string, redirect: string, onSuccess: () => void) => void
+  logout: () => void
 
   user?: User
   loadingUser: boolean
-  refreshUser: () => Promise<void>
+  refreshUser: () => void
 }
 
 export const UserContext = createContext<UserContextType | null>(null)
@@ -37,8 +32,6 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const [loadingUser, setLoadingUser] = useState(false)
 
   const refreshUser = useCallback(async () => {
-    const token = await Storage.getItem("nb-jwt-token")
-    if (token === null) return
     setLoadingUser(true)
     setUser((await authFetchGet("/user")) as User)
     setLoadingUser(false)
@@ -62,10 +55,16 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     [],
   )
 
+  const logout = useCallback(async () => {
+    await Storage.removeItem("nb-jwt-token")
+    setUser(undefined)
+  }, [])
+
   return (
     <UserContext.Provider
       value={{
         signIn,
+        logout,
         user,
         loadingUser,
         refreshUser,

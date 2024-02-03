@@ -20,7 +20,7 @@ export default function PracticeIndex() {
   const { data } = useAuthFetchGet<MathGenCategory[]>("/mathgen/categories")
 
   return (
-    <FullView className="bg-white">
+    <FullView>
       <FlexRowCenter
         className="m-auto w-full max-w-xl flex-wrap p-5"
         style={{
@@ -30,7 +30,7 @@ export default function PracticeIndex() {
         {data?.map(({ id, name, display }) => (
           <Pressable
             key={id}
-            className="flex aspect-[1.5] min-w-[150] max-w-[45%] flex-col rounded-lg border-2 border-transparent bg-primary px-3 py-2 hover:border-neutral-400 hover:shadow-lg"
+            className="flex aspect-[1.5] min-w-[150] max-w-[45%] flex-col rounded-lg border-2 border-neutral-200 bg-white px-3 py-2 shadow-sm hover:border-neutral-400 hover:shadow-lg"
             onPress={() => {
               router.push(`/home/practice/${id}`)
             }}

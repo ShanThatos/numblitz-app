@@ -15,12 +15,11 @@ import {
 } from "../../components/base"
 import SocialButton from "../../components/socials/SocialButton"
 import { useUser } from "../../contexts/user"
-import Storage from "../../utils/Storage"
 
 WebBrowser.maybeCompleteAuthSession()
 
 export default function SignInIndex() {
-  const { signIn: origSignIn } = useUser()
+  const { signIn: origSignIn, logout } = useUser()
   const signIn = useCallback(
     async (provider: string) => {
       await origSignIn(provider, Linking.createURL("/sign-in"), () => {
@@ -50,7 +49,7 @@ export default function SignInIndex() {
       <FullFlexColCenter className="justify-end pb-10 web:justify-start web:pt-32">
         <Pressable
           onPress={async () => {
-            await Storage.removeItem("nb-jwt-token")
+            await logout()
             router.replace("/home")
           }}
         >
