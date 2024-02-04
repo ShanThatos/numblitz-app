@@ -1,8 +1,9 @@
+import { Image } from "expo-image"
 import _ from "lodash"
 import { useCallback, useState } from "react"
 import { PressableProps } from "react-native"
 
-import { Header5, Image, Pressable } from "../base"
+import { Header5, Pressable } from "../base"
 
 const Variants = {
   google: {
@@ -40,7 +41,7 @@ export default function SocialButton({
       {...props}
     >
       <Image className="aspect-square w-8" source={image} />
-      <Header5 className="ml-2 self-center leading-none">{`Continue with ${_.startCase(
+      <Header5 className="ml-2 self-center">{`Continue with ${_.startCase(
         variant,
       )}`}</Header5>
     </Pressable>

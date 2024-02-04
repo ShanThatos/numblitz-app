@@ -1,9 +1,10 @@
 import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs/src/types"
+import { Image } from "expo-image"
 import { Tabs, router, useNavigation, usePathname } from "expo-router"
-import { Platform } from "react-native"
+import { Platform, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { Header6, Image, Pressable, View } from "../../components/base"
+import { Header6, Pressable } from "../../components/base"
 import { getColor } from "../../contexts/theme"
 
 const tabBarIcons = {
@@ -85,7 +86,7 @@ export default function TabsLayout() {
         tabBarButton: TabBarButton,
         tabBarLabel({ focused, color, position, children }) {
           return (
-            <Header6 className="pt-1 font-[Mulish] text-sm" style={{ color }}>
+            <Header6 className="font-Mulish pt-1 text-sm" style={{ color }}>
               {children}
             </Header6>
           )

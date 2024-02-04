@@ -1,5 +1,7 @@
+import { View } from "react-native"
+import WebView from "react-native-webview"
+
 import HtmlViewProps from "./HtmlViewProps"
-import { View, WebView } from "../base"
 
 export default function HtmlView({ html, className = "" }: HtmlViewProps) {
   return (

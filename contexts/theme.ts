@@ -4,11 +4,11 @@ import tailwindConfig from "../tailwind.config"
 
 const fullConfig = resolveConfig(tailwindConfig)
 
-const colors = fullConfig.theme?.colors ?? {}
+const colors: any = fullConfig.theme?.colors ?? {}
 
 export function getColor(color: string): string {
   if (color in colors) {
-    const colorMap: any = colors[color]
+    const colorMap = colors[color]
     if (typeof colorMap === "string") return colorMap
     if (typeof colorMap === "object" && "DEFAULT" in colorMap) {
       return colorMap.DEFAULT
@@ -21,7 +21,7 @@ export function getColor(color: string): string {
   if (!(colorName in colors)) {
     throw new Error(`Color ${color} (${colorName}) not found in theme`)
   }
-  const colorMap: any = colors[colorName]
+  const colorMap = colors[colorName]
 
   if (typeof colorMap === "string") return colorMap
   if (typeof colorMap === "object" && colorNumber in colorMap) {

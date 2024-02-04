@@ -1,5 +1,6 @@
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router"
 import { useCallback, useMemo, useState } from "react"
+import { View } from "react-native"
 
 import {
   FlexColCenter,
@@ -12,7 +13,6 @@ import {
   Header5,
   Pressable,
   Text,
-  View,
 } from "../../../../../components/base"
 import QuizScreen from "../../../../../components/quiz/QuizScreen"
 import { MathProblem, useModel } from "../../../../../hooks/requests/models"
@@ -214,7 +214,7 @@ export default function ModelQuizScreen() {
           <Pressable
             className="rounded bg-icon p-2"
             onPress={() => {
-              router.push(`/home/practice/${categoryId}/${modelId}`)
+              router.navigate(`/home/practice/${categoryId}/${modelId}`)
             }}
           >
             <Header5 className="text-center text-white">Continue</Header5>

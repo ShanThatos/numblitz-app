@@ -2,12 +2,12 @@ import { SplashScreen } from "expo-router"
 import { useEffect } from "react"
 
 import "./devextensions"
-import { default as useLoadedAssetsBasic } from "./loadassets"
+import { default as useLoadedAssetsBase } from "./loadassets"
 
 SplashScreen.preventAutoHideAsync()
 
 export default function useLoadedAssets() {
-  const [assetsLoaded] = useLoadedAssetsBasic()
+  const [assetsLoaded] = useLoadedAssetsBase()
 
   useEffect(() => {
     if (assetsLoaded) SplashScreen.hideAsync()

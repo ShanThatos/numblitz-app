@@ -1,6 +1,7 @@
+import { View } from "react-native"
+
 import MathViewProps from "./MathViewProps"
 import { katexify } from "./katexify"
-import { View } from "../base"
 
 export default function MathView({
   contents,

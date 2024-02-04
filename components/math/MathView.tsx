@@ -1,6 +1,8 @@
+import { View } from "react-native"
+import WebView from "react-native-webview"
+
 import MathViewProps from "./MathViewProps"
 import { katexify } from "./katexify"
-import { View, WebView } from "../base"
 
 export default function MathView({
   contents,

@@ -1,16 +1,16 @@
+import { cssInterop } from "nativewind"
 import { StyleSheet, Text, TextStyle } from "react-native"
 
 const CUSTOM_FONT_FAMILIES = ["Nunito", "Mulish", "Katex"]
 
-export const FixedFontText = ({ style, ...restProps }: Text["props"]) => {
+export const FontFixedText = ({ style, ...restProps }: Text["props"]) => {
   const flatStyle = StyleSheet.flatten([
     style,
     { userSelect: "none" },
   ]) as TextStyle
 
-  if (flatStyle.fontFamily === undefined) {
-    flatStyle.fontFamily = "Nunito"
-  }
+  if (flatStyle.fontFamily === undefined) flatStyle.fontFamily = "Nunito"
+
   if (CUSTOM_FONT_FAMILIES.includes(flatStyle.fontFamily)) {
     const fontFamily = flatStyle.fontFamily
     const fontWeight = flatStyle.fontWeight ?? "normal"
@@ -24,15 +24,18 @@ export const FixedFontText = ({ style, ...restProps }: Text["props"]) => {
 
     flatStyle.fontFamily =
       fontFamily +
-      "_" +
       (!isBold && !isItalic
-        ? "regular"
+        ? ""
         : isBold && !isItalic
-        ? "bold"
-        : !isBold && isItalic
-        ? "italic"
-        : "bold_italic")
+          ? "_bold"
+          : !isBold && isItalic
+            ? "_italic"
+            : "_bold_italic")
   }
 
   return <Text {...restProps} style={flatStyle} />
 }
+
+cssInterop(FontFixedText, {
+  className: { target: "style" },
+})
