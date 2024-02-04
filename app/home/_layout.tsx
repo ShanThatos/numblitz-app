@@ -86,7 +86,7 @@ export default function TabsLayout() {
         tabBarButton: TabBarButton,
         tabBarLabel({ focused, color, position, children }) {
           return (
-            <Header6 className="font-Mulish pt-1 text-sm" style={{ color }}>
+            <Header6 className="pt-1 font-Mulish text-sm" style={{ color }}>
               {children}
             </Header6>
           )

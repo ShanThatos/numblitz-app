@@ -1,6 +1,8 @@
 import "react-native-reanimated"
 import ReactNativeFeatureFlags from "react-native/Libraries/ReactNative/ReactNativeFeatureFlags"
 
+import "expo-router/entry"
+
 // enable the JS-side of the w3c PointerEvent implementation
 ReactNativeFeatureFlags.shouldEmitW3CPointerEvents = () => true
 
@@ -8,5 +10,3 @@ ReactNativeFeatureFlags.shouldEmitW3CPointerEvents = () => true
 // shouldEmitW3CPointerEvents should also be true
 ReactNativeFeatureFlags.shouldPressibilityUseW3CPointerEventsForHover = () =>
   true
-
-import "expo-router/entry"

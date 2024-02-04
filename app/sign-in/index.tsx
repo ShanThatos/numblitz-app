@@ -36,7 +36,7 @@ export default function SignInIndex() {
           className="mr-2 aspect-square w-10"
           source={require("../../assets/icon-rounded.png")}
         />
-        <Header1 className="ios:mt-1 font-Mulish text-center">NumBlitz</Header1>
+        <Header1 className="ios:mt-1 text-center font-Mulish">NumBlitz</Header1>
       </FlexRowCenter>
       <FlexColCenter className="mt-[3vh]">
         <SocialButton variant="google" signIn={signIn} />
