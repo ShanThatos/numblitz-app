@@ -1,4 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons"
+import { Image } from "expo-image"
 import { router, useLocalSearchParams } from "expo-router"
 import { useCallback } from "react"
 import { RefreshControl, Text as RNText } from "react-native"
@@ -12,7 +13,6 @@ import {
   Header2,
   Header4,
   Header5,
-  Image,
   Pressable,
   ScrollView,
 } from "../../../../components/base"
@@ -56,12 +56,12 @@ export default function CategoryModelsScreen() {
               (model.difficulty === 1
                 ? "border-[#64c451]"
                 : model.difficulty === 2
-                ? "border-[#fcb954]"
-                : "border-[#fc5454]")
+                  ? "border-[#fcb954]"
+                  : "border-[#fc5454]")
             }
             onPress={() => {
               if (model.unlocked)
-                router.push(`/home/practice/${categoryId}/${model.id}`)
+                router.navigate(`/home/practice/${categoryId}/${model.id}`)
             }}
           >
             <FullFlexCol className="p-2">

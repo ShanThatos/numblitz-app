@@ -1,3 +1,4 @@
+import { Image } from "expo-image"
 import * as Linking from "expo-linking"
 import { router } from "expo-router"
 import * as WebBrowser from "expo-web-browser"
@@ -9,7 +10,6 @@ import {
   FullFlexColCenter,
   FullView,
   Header1,
-  Image,
   Pressable,
   Text,
 } from "../../components/base"
@@ -36,12 +36,7 @@ export default function SignInIndex() {
           className="mr-2 aspect-square w-10"
           source={require("../../assets/icon-rounded.png")}
         />
-        <Header1
-          className="ios:mt-1 font-[Mulish]"
-          style={{ textAlignVertical: "center" }}
-        >
-          NumBlitz
-        </Header1>
+        <Header1 className="ios:mt-1 font-Mulish text-center">NumBlitz</Header1>
       </FlexRowCenter>
       <FlexColCenter className="mt-[3vh]">
         <SocialButton variant="google" signIn={signIn} />

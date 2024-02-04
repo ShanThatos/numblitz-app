@@ -1,5 +1,3 @@
-import { URLSearchParams } from "react-native-url-polyfill"
-
 import Storage from "./Storage"
 
 // @ts-ignore

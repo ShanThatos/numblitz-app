@@ -1,11 +1,11 @@
 import { router } from "expo-router"
+import { View } from "react-native"
 
 import {
   FullFlexColCenter,
   Header3,
   Pressable,
   Text,
-  View,
 } from "../../../components/base"
 import ThemedAvatar from "../../../components/socials/ThemedAvatar"
 import { useUser } from "../../../contexts/user"

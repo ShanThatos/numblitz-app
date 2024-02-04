@@ -1,12 +1,11 @@
 import { router, useLocalSearchParams } from "expo-router"
-import { RefreshControl } from "react-native"
+import { RefreshControl, View } from "react-native"
 
 import {
   FullView,
   Header5,
   Pressable,
   ScrollView,
-  View,
 } from "../../../../../components/base"
 import HtmlView from "../../../../../components/htmlview/HtmlView"
 import { useExplanation } from "../../../../../hooks/requests/models"
@@ -40,7 +39,7 @@ export default function ModelScreen() {
             <Pressable
               className="rounded bg-icon p-2"
               onPress={() => {
-                router.push(`/home/practice/${categoryId}/${modelId}/quiz`)
+                router.navigate(`/home/practice/${categoryId}/${modelId}/quiz`)
               }}
             >
               <Header5 className="text-center text-white">Practice!</Header5>

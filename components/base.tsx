@@ -1,21 +1,27 @@
-import { Image as RNImage } from "expo-image"
-import { MotiView as _MotiView } from "moti"
-import { styled } from "nativewind"
+import { Image } from "expo-image"
+import { MotiView } from "moti"
+import { cssInterop } from "nativewind"
 import {
-  View as RNView,
   Pressable as RNPressable,
   ScrollView as RNScrollView,
+  View,
 } from "react-native"
-import { WebView as RNWebView } from "react-native-webview"
+import WebView from "react-native-webview"
 
-import { FixedFontText } from "./FontFixedText"
+import { FontFixedText } from "./FontFixedText"
+import { styled } from "../utils/styled"
+
+// Interops
+cssInterop(WebView, { className: "style" })
+cssInterop(Image, { className: "style" })
+cssInterop(MotiView, { className: "style" })
 
 // Settings
-const textClasses = "font-sans text-base"
+const textClasses = "text-base"
 
 // Typography
-export const Text = styled(FixedFontText, textClasses)
-export const KatexText = styled(Text, "font-[Katex]")
+export const Text = styled(FontFixedText, textClasses)
+export const KatexText = styled(Text, "font-Katex")
 
 export const BaseHeader = styled(Text, "font-bold")
 
@@ -26,11 +32,7 @@ export const Header4 = styled(BaseHeader, "text-xl")
 export const Header5 = styled(BaseHeader, "text-lg")
 export const Header6 = styled(BaseHeader, "text-base")
 
-// Assets
-export const Image = styled(RNImage)
-
 // Layout
-export const View = styled(RNView)
 export const FullView = styled(View, "flex-1")
 
 export const FlexRow = styled(View, "flex flex-row")
@@ -48,9 +50,3 @@ export const ScrollView = styled(RNScrollView, "flex-1")
 
 // Buttons
 export const Pressable = styled(RNPressable, "active:opacity-70")
-
-// WebView
-export const WebView = styled(RNWebView)
-
-// Moti
-export const MotiView = styled(_MotiView)

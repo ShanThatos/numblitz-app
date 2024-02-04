@@ -1,12 +1,12 @@
+import { Image } from "expo-image"
 import { router } from "expo-router"
+import { View } from "react-native"
 
 import {
   FlexRowCenter,
-  FullView,
+  FullFlexColCenter,
   Header6,
-  Image,
   Pressable,
-  View,
 } from "../../../components/base"
 import { useAuthFetchGet } from "../../../hooks/authfetch"
 
@@ -20,7 +20,7 @@ export default function PracticeIndex() {
   const { data } = useAuthFetchGet<MathGenCategory[]>("/mathgen/categories")
 
   return (
-    <FullView>
+    <FullFlexColCenter>
       <FlexRowCenter
         className="m-auto w-full max-w-xl flex-wrap p-5"
         style={{
@@ -32,7 +32,7 @@ export default function PracticeIndex() {
             key={id}
             className="flex aspect-[1.5] min-w-[150] max-w-[45%] flex-col rounded-lg border-2 border-neutral-200 bg-white px-3 py-2 shadow-sm hover:border-neutral-400 hover:shadow-lg"
             onPress={() => {
-              router.push(`/home/practice/${id}`)
+              router.navigate(`/home/practice/${id}`)
             }}
           >
             <Image
@@ -46,6 +46,6 @@ export default function PracticeIndex() {
           </Pressable>
         ))}
       </FlexRowCenter>
-    </FullView>
+    </FullFlexColCenter>
   )
 }

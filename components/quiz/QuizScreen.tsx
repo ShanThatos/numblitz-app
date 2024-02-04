@@ -1,5 +1,7 @@
 import { Octicons } from "@expo/vector-icons"
+import { MotiView } from "moti"
 import { useRef, useState } from "react"
+import { View } from "react-native"
 
 import QuizAnswerInput, { QuizAnswerInputHandle } from "./QuizAnswerInput"
 import QuizKeyboard from "./QuizKeyboard"
@@ -9,8 +11,6 @@ import {
   FullFlexCol,
   FullFlexColCenter,
   KatexText,
-  MotiView,
-  View,
 } from "../base"
 import MathView from "../math/MathView"
 

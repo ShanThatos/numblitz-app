@@ -5,11 +5,11 @@ import {
   useImperativeHandle,
   useState,
 } from "react"
-import { Platform } from "react-native"
+import { Platform, View } from "react-native"
 
 import { QuizEvent } from "./QuizKeyboard"
 import { MathProblem, ProblemModel } from "../../hooks/requests/models"
-import { FlexColCenter, FlexRow, FlexRowCenter, KatexText, View } from "../base"
+import { FlexColCenter, FlexRow, FlexRowCenter, KatexText } from "../base"
 
 const Cursor = ({
   overrideShow,
@@ -200,8 +200,8 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
               (["number", "decimal", "money"].includes(format)
                 ? 1
                 : ["fraction"].includes(format)
-                ? 2
-                : 3)
+                  ? 2
+                  : 3)
 
             if (rtl) setCursorPos(0)
             else setCursorPos(texts[next].length)

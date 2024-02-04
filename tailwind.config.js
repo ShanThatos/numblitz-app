@@ -1,12 +1,13 @@
-const nativewind = require("nativewind/tailwind/css")
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./{app,components,contexts,hooks}/**/*.{js,jsx,ts,tsx}"],
+  content: ["./{app,components,contexts,hooks,utils}/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Nunito", "sans-serif"],
+        Nunito: ["Nunito"],
+        Mulish: ["Mulish"],
+        Katex: ["Katex"],
       },
       colors: {
         primary: {
@@ -31,5 +32,4 @@ module.exports = {
       },
     },
   },
-  plugins: [nativewind],
 }
