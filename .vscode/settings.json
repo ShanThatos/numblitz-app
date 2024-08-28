@@ -1,0 +1,42 @@
+{
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "files.autoSave": "off",
+  "eslint.format.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "node_modules": true,
+    ".vscode": true,
+    ".expo": true,
+    "tsconfig.json": true,
+    "babel.config.js": true,
+    "metro.config.js": true,
+    "tailwind.config.js": true,
+    ".eslintrc.js": true,
+    ".prettierrc": true,
+    "nativewind-env.d.ts": true,
+    ".eslintignore": true,
+    "package-lock.json": true,
+    "components.json": true,
+    "global.css": true,
+    "expo-env.d.ts": true,
+    ".gitignore": true
+  },
+  "explorerExclude.backup": {},
+}
