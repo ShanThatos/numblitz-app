@@ -1,8 +1,4 @@
-# Expo Nativewind & React Native Reusables Starter
+# NumBlitz Expo React Native App
 
-Personal starter project woohoo 🎉 \
-Also includes some strict linting & formatting rules.
-
-- https://docs.expo.dev/more/create-expo/
-- https://www.nativewind.dev/v4/overview
-- https://rnr-docs.vercel.app/getting-started/introduction/
+Wooo this has got to be the done. I'm super proud of how this turned out.
+Supabase client libraries are incredible.
