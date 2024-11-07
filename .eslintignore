@@ -1,6 +1,9 @@
 /.expo/
 /node_modules/
 /.eslintrc.js
+/expo-env.d.ts
 /babel.config.js
 /metro.config.js
 /tailwind.config.js
+/lib/database.types.ts
+/scripts/

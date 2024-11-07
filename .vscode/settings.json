@@ -34,9 +34,11 @@
     ".eslintignore": true,
     "package-lock.json": true,
     "components.json": true,
-    "global.css": true,
+    "global.css": false,
     "expo-env.d.ts": true,
-    ".gitignore": true
+    ".gitignore": true,
+    "eas.json": true,
+    ".gitattributes": true
   },
   "explorerExclude.backup": {},
 }

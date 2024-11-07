@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "npm-start",
+      "type": "shell",
+      "command": "npm run start",
+      "options": {
+        "statusbar": {
+          "label": "$(run) Expo Start"
+        }
+      }
+    },
+    {
+      "label": "npm-build:ios:dev",
+      "type": "shell",
+      "command": "npm run build:ios:dev",
+      "options": {
+        "statusbar": {
+          "label": "$(package) Expo Build iOS Dev"
+        }
+      }
+    },
+    {
+      "label": "npm-supabase:gen:types",
+      "type": "shell",
+      "command": "npm run supabase:gen:types",
+      "options": {
+        "statusbar": {
+          "label": "$(code) Supabase Gen Types"
+        }
+      }
+    }
+  ]
+}

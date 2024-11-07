@@ -7,6 +7,9 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      fontFamily: {
+        Katex: ["Katex"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -40,6 +43,11 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        brand: {
+          DEFAULT: "hsl(var(--brand))",
+          background: "hsl(var(--brand-background))",
+          dark: "hsl(var(--brand-dark))",
         },
       },
       borderWidth: {

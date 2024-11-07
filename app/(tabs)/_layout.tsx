@@ -1,58 +1,53 @@
 import React from "react";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useUser } from "~/components/contexts/session";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
-import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { Tabs } from "expo-router";
+import { House, NotebookPen, UserRound } from "lucide-react-native";
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+const NAV_CONFIG = [
+  {
+    name: "index",
+    title: "Home",
+    IconComponent: House,
+    requireAuth: false,
+  },
+  {
+    name: "practice",
+    title: "Practice",
+    IconComponent: NotebookPen,
+    requireAuth: false,
+  },
+  {
+    name: "profile",
+    title: "Profile",
+    IconComponent: UserRound,
+    requireAuth: true,
+  },
+];
 
 export default function TabLayout() {
+  const user = useUser();
   const { colorScheme } = useColorScheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: NAV_THEME[colorScheme].primary,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        // headerShown: useClientOnlyValue(false, true),
+        headerShown: false,
+        tabBarActiveTintColor: NAV_THEME[colorScheme].brandDark,
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={NAV_THEME[colorScheme].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
+      {NAV_CONFIG.map(({ name, title, IconComponent, requireAuth }) => (
+        <Tabs.Screen
+          key={name}
+          name={name}
+          options={{
+            title,
+            tabBarIcon: ({ color }) => <IconComponent color={color} />,
+            ...(requireAuth && !user ? { href: null } : {}),
+          }}
+        />
+      ))}
     </Tabs>
   );
 }

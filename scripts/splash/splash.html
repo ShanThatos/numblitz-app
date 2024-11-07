@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="domtoimage.js"></script>
+
+    <style>
+      @font-face {
+        font-family: SplashFont;
+        src: url("Nunito_bold.ttf");
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex min-h-screen flex-col items-center justify-center p-3">
+      <div class="border border-black">
+        <div
+          id="splash"
+          class="flex h-[300px] flex-row gap-5 border-none bg-transparent p-5 px-[400px]"
+        >
+          <div class="border-none">
+            <img
+              class="border-none"
+              src="icon-rounded.png"
+              style="max-width: 100%; max-height: 100%"
+            />
+          </div>
+          <span
+            class="border-none font-bold"
+            style="font-family: SplashFont; font-size: 180px; color: #1c1d4f"
+          >
+            NumBlitz
+          </span>
+        </div>
+      </div>
+      <div class="p-3">
+        <button
+          class="cursor-pointer rounded bg-blue-500 px-10 py-2 text-xl text-white hover:opacity-80 active:opacity-75"
+          onclick="saveImage()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+    <script>
+      function saveImage() {
+        const splashElement = document.getElementById("splash");
+        domtoimage
+          .toPng(splashElement, { bgcolor: "transparent" })
+          .then(function (dataUrl) {
+            var link = document.createElement("a");
+            link.download = "splash.png";
+            link.href = dataUrl;
+            link.click();
+          });
+      }
+    </script>
+  </body>
+</html>

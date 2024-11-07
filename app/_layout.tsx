@@ -1,13 +1,20 @@
 import "~/global.css";
+import "~/lib/interops";
 
 import * as React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
+import { PortalHost } from "@rn-primitives/portal";
+import { focusManager, QueryClientProvider } from "@tanstack/react-query";
+import { SessionProvider } from "~/components/contexts/session";
+import { queryClient } from "~/lib/clients";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
-import { SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { Platform } from "react-native";
+import { AppState, Platform } from "react-native";
+
+import type { AppStateStatus } from "react-native";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -26,9 +33,30 @@ export {
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 void SplashScreen.preventAutoHideAsync();
 
+function onAppStateChange(status: AppStateStatus) {
+  if (Platform.OS !== "web") {
+    focusManager.setFocused(status === "active");
+  }
+}
+
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isDarkColorScheme) {
+      setColorScheme("light");
+      void AsyncStorage.setItem("theme", "light");
+    }
+  }, [isDarkColorScheme, setColorScheme]);
+
+  React.useEffect(() => {
+    const subscription = AppState.addEventListener("change", onAppStateChange);
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   React.useEffect(() => {
     void (async () => {
@@ -60,12 +88,20 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
-    </ThemeProvider>
+    <>
+      <SessionProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+            <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+            <Slot />
+            {/* for modals: */}
+            {/* <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack> */}
+          </ThemeProvider>
+        </QueryClientProvider>
+      </SessionProvider>
+      <PortalHost />
+    </>
   );
 }

@@ -4,6 +4,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/strict-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
     "prettier",
   ],
   parser: "@typescript-eslint/parser",
@@ -23,7 +24,7 @@ module.exports = {
       },
       {
         selector: "parameter",
-        format: ["camelCase"],
+        format: ["camelCase", "PascalCase"],
         leadingUnderscore: "allow",
       },
       {
