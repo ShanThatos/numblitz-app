@@ -60,6 +60,13 @@ export const buildModelExplanationHtmlPage = (explanation: string) => {
       theme: "snow"
     });
     quillPreview.setContents(explanation);
+
+    document.querySelectorAll(".ql-container img").forEach((el) => {
+        if (!el.getAttribute("fixed")) {
+            el.setAttribute("srcset", el.getAttribute("src") + " 5.5x");
+            el.setAttribute("fixed", true);
+        }
+    });
   </script>
 </body>
 </html>
