@@ -60,6 +60,10 @@ export default function ModelScreen() {
     return Promise.all([refetchModel(), refetchTopScores()]);
   };
 
+  const splitTitle = model?.data?.display_name.split("\n");
+  const mainTitle = splitTitle?.[0];
+  const subTitle = splitTitle?.slice(1).join("\n");
+
   return (
     <View className="flex-1">
       <View className="flex-1">
@@ -73,8 +77,13 @@ export default function ModelScreen() {
               <BackButton size={20} />
               <View className="flex-1">
                 <Text className="text-3xl font-bold leading-none">
-                  {model?.data?.display_name}
+                  {mainTitle}
                 </Text>
+                {subTitle && (
+                  <Text className="text-xl font-bold leading-tight text-neutral-700">
+                    {subTitle}
+                  </Text>
+                )}
               </View>
             </View>
             {topScores?.data && (

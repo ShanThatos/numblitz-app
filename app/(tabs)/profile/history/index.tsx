@@ -40,17 +40,22 @@ export default function ProfileHistoryScreen() {
           <BackButton size={25} />
           <Text className="text-4xl font-bold leading-none">History</Text>
         </View>
-        <View className="flex flex-1 flex-col items-stretch gap-2 px-5 pt-4">
+        <View className="flex flex-1 flex-col items-stretch gap-2 px-5 py-4">
           {scoresData?.data?.map((score, index) => {
             const result = score.result as unknown as PracticeQuizScoreResult;
+            const splitTitle = modelsMap
+              ?.get(score.model_id)
+              ?.display_name.split("\n");
+            const mainTitle = splitTitle?.[0];
+            const subTitle = splitTitle?.slice(1).join("\n");
             return (
               <Link
                 key={`${score.id.toString()}-${index.toString()}`}
                 href={`/profile/history/quiz/${score.id.toString()}`}
                 asChild
               >
-                <Pressable className="flex h-14 flex-row items-center gap-1.5 rounded-md border border-input bg-white px-2 active:bg-accent">
-                  <View className="flex aspect-square h-full flex-col items-center justify-center">
+                <Pressable className="flex min-h-14 flex-row items-center gap-1.5 rounded-md border border-input bg-white px-2 active:bg-accent">
+                  <View className="flex aspect-square h-14 flex-col items-center justify-center">
                     <Text
                       className={`text-lg font-bold leading-none ${result.score >= 80 ? "text-green-700" : "text-red-700"}`}
                       numberOfLines={1}
@@ -59,10 +64,15 @@ export default function ProfileHistoryScreen() {
                       {result.score.toFixed(0)}%
                     </Text>
                   </View>
-                  <View>
-                    <Text className="text-slate-700">
-                      {modelsMap?.get(score.model_id)?.display_name}
+                  <View className="py-1">
+                    <Text className="leading-tight text-slate-700">
+                      {mainTitle}
                     </Text>
+                    {subTitle && (
+                      <Text className="text-sm leading-tight text-slate-600">
+                        {subTitle}
+                      </Text>
+                    )}
                     <Text className="text-sm text-slate-600">
                       {DateTime.fromISO(score.created_at).toLocaleString({
                         month: "short",

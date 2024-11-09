@@ -27,6 +27,11 @@ export default function ModelButton({
 }: ModelButtonProps) {
   const router = useRouter();
   const navigation = useNavigation();
+
+  const splitTitle = model.display_name.split("\n");
+  const mainTitle = splitTitle[0];
+  const subTitle = splitTitle.slice(1).join("\n");
+
   return (
     <Pressable
       className="native:px-4 native:py-2 rounded-md border border-input bg-white px-4 py-2 active:bg-accent web:hover:bg-accent"
@@ -74,8 +79,15 @@ export default function ModelButton({
         }
       }}
     >
-      <View className="flex flex-row items-center gap-3">
-        <Text>{model.display_name}</Text>
+      <View className="flex flex-row items-start gap-3">
+        <View>
+          <Text className="">{mainTitle}</Text>
+          {subTitle && (
+            <Text className="text-sm leading-tight text-neutral-600">
+              {subTitle}
+            </Text>
+          )}
+        </View>
         <View
           className={`ml-auto rounded p-1 ${DIFFICULTY_VALUES[model.difficulty][0]}`}
         >

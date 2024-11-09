@@ -1,0 +1,20 @@
+
+NOW
+View completion rate on model buttons
+More dashboard stats (streak?)
+Reset scores option (maybe in account)
+History search
+
+MODELS
+- Divisibility Rules (videos)
+- Conversions
+- Order of Operations
+
+PLUS
+Kahoot integration
+Alternative quizzes (additional related challenge model quizzes that show up on the readypage)
+- FDP -- addition, subtraction, multiplication with easy numbers
+- Squares -- 1-25, 1-36, square roots, logs
+- Cubes & Higher Powers -- cube roots, logs
+- Roman Numerals -- addition and subtraction
+- Divisibility Rules -- complex expressions

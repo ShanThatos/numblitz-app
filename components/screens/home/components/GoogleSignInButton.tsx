@@ -4,12 +4,13 @@ import { supabase } from "~/lib/clients";
 import { cn } from "~/lib/utils";
 import { Image } from "expo-image";
 import * as WebBrowser from "expo-web-browser";
-import { Pressable } from "react-native";
+import { Platform, Pressable } from "react-native";
 
 export default function GoogleSignInButton() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (Platform.OS === "web") return;
     void WebBrowser.warmUpAsync();
     return () => {
       void WebBrowser.coolDownAsync();

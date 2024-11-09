@@ -26,6 +26,10 @@ export default function ProfileHistoryQuizScreen() {
   const averageTime = time.as("seconds") / answers.length;
   const { minutes, seconds } = time.shiftTo("minutes", "seconds");
 
+  const splitTitle = model.display_name.split("\n");
+  const mainTitle = splitTitle[0];
+  const subTitle = splitTitle.slice(1).join("\n");
+
   return (
     <View className="pt-safe flex flex-1 flex-col bg-white">
       <View className="px-3">
@@ -36,7 +40,14 @@ export default function ProfileHistoryQuizScreen() {
           >
             {score.toFixed(0)}%
           </Text>
-          <Text className="text-center text-xl">{model.display_name}</Text>
+          <View>
+            <Text className="text-center text-xl">{mainTitle}</Text>
+            {subTitle && (
+              <Text className="text-center text-lg leading-tight text-neutral-700">
+                {subTitle}
+              </Text>
+            )}
+          </View>
           <View className="flex flex-row items-center justify-center gap-8">
             <TextClassContext.Provider value="text-lg">
               <View className="flex flex-1 flex-col items-end justify-start">

@@ -127,7 +127,7 @@ export default function ModelQuizScreen() {
     return (
       <QuizPage
         problems={problems}
-        title={model.data.display_name}
+        title={model.data.display_name.split("\n")[0]}
         endTime={quizStartTime?.plus(PRACTICE_DURATION)}
         onFinish={onFinish}
       />

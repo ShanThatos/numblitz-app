@@ -10,10 +10,35 @@ import { queryClient } from "~/lib/clients";
 import { Image } from "expo-image";
 import {
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
+  ScrollViewProps,
   TextInput,
   View,
 } from "react-native";
+
+export function HomeScreenContainer(props: ScrollViewProps) {
+  return Platform.select({
+    web: (
+      <View className="flex-1 overflow-y-auto bg-brand-background">
+        {props.children}
+      </View>
+    ),
+    default: (
+      <KeyboardAvoidingView
+        className="flex-1 bg-brand-background"
+        behavior="padding"
+      >
+        <ScrollView
+          className="flex-1"
+          contentContainerClassName="min-h-full"
+          keyboardShouldPersistTaps="always"
+          {...props}
+        />
+      </KeyboardAvoidingView>
+    ),
+  });
+}
 
 export default function HomeScreen() {
   const user = useUser();
@@ -29,52 +54,47 @@ export default function HomeScreen() {
     });
 
   return (
-    <KeyboardAvoidingView className="flex-1" behavior="padding">
-      <ScrollView
-        className="flex-1 bg-brand-background"
-        contentContainerClassName="min-h-full"
-        keyboardShouldPersistTaps="always"
-        scrollEnabled={!searchInputFocused}
-        refreshControl={<PromiseRefreshControl onRefresh={onRefresh} />}
-      >
-        <View className="pt-safe flex-1">
-          <View className="flex-1 flex-col gap-5 px-5 py-3">
-            <View className="flex flex-row items-center gap-2">
-              <Image
-                className="aspect-square h-10"
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports
-                source={require("assets/images/icon-rounded.png")}
-              />
-              <Text className="pt-2 text-4xl font-bold leading-none">
-                Dashboard
-              </Text>
-            </View>
-            <TextInput
-              ref={searchInputRef}
-              className="rounded-lg border-2 border-neutral-200 bg-neutral-50 p-3 transition-colors focus:border-sky-300"
-              placeholderTextColor={"#777"}
-              placeholder="Search"
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              onFocus={setSearchInputFocused}
-              onBlur={setSearchInputBlurred}
+    <HomeScreenContainer
+      scrollEnabled={!searchInputFocused}
+      refreshControl={<PromiseRefreshControl onRefresh={onRefresh} />}
+    >
+      <View className="pt-safe flex-1">
+        <View className="flex-1 flex-col gap-5 px-5 py-3">
+          <View className="flex flex-row items-center gap-2">
+            <Image
+              className="aspect-square h-10"
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports
+              source={require("assets/images/icon-rounded.png")}
             />
-            {searchInputFocused ? (
-              <SearchResultsPage
-                searchQuery={searchQuery}
-                dismissSearch={() => {
-                  setSearchQuery("");
-                  searchInputRef.current?.blur();
-                }}
-              />
-            ) : user ? (
-              <DashboardPage />
-            ) : (
-              <SignInPage />
-            )}
+            <Text className="pt-2 text-4xl font-bold leading-none">
+              Dashboard
+            </Text>
           </View>
+          <TextInput
+            ref={searchInputRef}
+            className="rounded-lg border-2 border-neutral-200 bg-neutral-50 p-3 transition-colors focus:border-sky-300"
+            placeholderTextColor={"#777"}
+            placeholder="Search"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            onFocus={setSearchInputFocused}
+            onBlur={setSearchInputBlurred}
+          />
+          {searchInputFocused ? (
+            <SearchResultsPage
+              searchQuery={searchQuery}
+              dismissSearch={() => {
+                setSearchQuery("");
+                searchInputRef.current?.blur();
+              }}
+            />
+          ) : user ? (
+            <DashboardPage />
+          ) : (
+            <SignInPage />
+          )}
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </View>
+    </HomeScreenContainer>
   );
 }
