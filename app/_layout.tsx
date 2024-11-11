@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import "~/global.css";
 import "~/lib/interops";
 
-import * as React from "react";
+import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
@@ -10,6 +12,7 @@ import { SessionProvider } from "~/components/contexts/session";
 import { queryClient } from "~/lib/clients";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
+import { useFonts } from "expo-font";
 import { Slot, SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { AppState, Platform } from "react-native";
@@ -41,16 +44,16 @@ function onAppStateChange(status: AppStateStatus) {
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isDarkColorScheme) {
       setColorScheme("light");
       void AsyncStorage.setItem("theme", "light");
     }
   }, [isDarkColorScheme, setColorScheme]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const subscription = AppState.addEventListener("change", onAppStateChange);
 
     return () => {
@@ -58,7 +61,7 @@ export default function RootLayout() {
     };
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     void (async () => {
       const theme = await AsyncStorage.getItem("theme");
       if (Platform.OS === "web") {
@@ -83,7 +86,24 @@ export default function RootLayout() {
     });
   }, [colorScheme, setColorScheme]);
 
-  if (!isColorSchemeLoaded) {
+  const [loaded, error] = useFonts({
+    Katex: require("~/assets/fonts/katex/Katex.ttf"),
+    Katex_bold: require("~/assets/fonts/katex/Katex_bold.ttf"),
+    Katex_italic: require("~/assets/fonts/katex/Katex_italic.ttf"),
+    Katex_bold_italic: require("~/assets/fonts/katex/Katex_bold_italic.ttf"),
+  });
+
+  useEffect(() => {
+    if (loaded || error) {
+      void SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (error) {
+    console.error(error);
+  }
+
+  if (!isColorSchemeLoaded || !loaded) {
     return null;
   }
 
