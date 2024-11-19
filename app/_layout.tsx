@@ -114,10 +114,6 @@ export default function RootLayout() {
           <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
             <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
             <Slot />
-            {/* for modals: */}
-            {/* <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack> */}
           </ThemeProvider>
         </QueryClientProvider>
       </SessionProvider>
