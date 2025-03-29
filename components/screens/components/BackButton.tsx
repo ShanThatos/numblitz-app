@@ -1,5 +1,5 @@
+import useGoBack from "~/hooks/use-go-back";
 import ChevronLeft from "~/lib/icons/ChevronLeft";
-import { useNavigation } from "expo-router";
 import { Pressable } from "react-native";
 
 interface BackButtonProps {
@@ -7,9 +7,10 @@ interface BackButtonProps {
 }
 
 export default function BackButton({ size = 16 }: BackButtonProps) {
-  const navigation = useNavigation();
+  const goBack = useGoBack();
+
   return (
-    <Pressable onPress={navigation.goBack} className="scale-125">
+    <Pressable onPress={goBack} className="scale-125">
       <ChevronLeft
         className="text-black"
         strokeWidth={3}

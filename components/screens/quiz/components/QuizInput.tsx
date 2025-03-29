@@ -157,7 +157,7 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
       (event: QuizInputEvent) => {
         setHighlight(false);
         if (event.type === "clear") reset();
-        else if (event.type === "delete") {
+        else if (event.type === "backspace") {
           setTexts((prev) => {
             const newPrev = [...prev];
             if (highlight) {
@@ -168,6 +168,19 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
                 newPrev[current].slice(0, Math.max(cursorPos - 1, 0)) +
                 newPrev[current].slice(cursorPos);
               setCursorPos(Math.max(cursorPos - 1, 0));
+            }
+            return newPrev;
+          });
+        } else if (event.type === "delete") {
+          setTexts((prev) => {
+            const newPrev = [...prev];
+            if (highlight) {
+              newPrev[current] = "";
+              setCursorPos(0);
+            } else {
+              newPrev[current] =
+                newPrev[current].slice(0, cursorPos) +
+                newPrev[current].slice(cursorPos + 1);
             }
             return newPrev;
           });
@@ -204,6 +217,10 @@ const QuizAnswerInput = forwardRef<QuizAnswerInputHandle, QuizAnswerInputProps>(
         } else if (event.type === "cursor-start") setCursorPos(0);
         else if (event.type === "cursor-end")
           setCursorPos(texts[current].length);
+        else if (event.type === "cursor-left")
+          setCursorPos((prev) => Math.max(prev - 1, 0));
+        else if (event.type === "cursor-right")
+          setCursorPos((prev) => Math.min(prev + 1, texts[current].length));
       },
       [current, cursorPos, format, highlight, reset, texts],
     );

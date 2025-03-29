@@ -76,7 +76,7 @@ export default function QuizKeyboard({
                 value="+/−"
                 className="pb-0.5 font-bold"
               />
-              <KeyboardKey type="delete">
+              <KeyboardKey type="backspace">
                 <Delete className="text-black" size={30} />
               </KeyboardKey>
             </KeyboardRow>

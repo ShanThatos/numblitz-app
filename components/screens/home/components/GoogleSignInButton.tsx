@@ -10,7 +10,34 @@ export default function GoogleSignInButton() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (Platform.OS === "web") return;
+    if (Platform.OS === "web") {
+      if (window.location.href.includes("#")) {
+        const params = new URLSearchParams(window.location.href.split("#")[1]);
+        const accessToken = params.get("access_token");
+        const refreshToken = params.get("refresh_token");
+
+        if (!accessToken || !refreshToken) {
+          return;
+        }
+
+        supabase.auth
+          .setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          })
+          .then(() => {
+            history.pushState(
+              "",
+              document.title,
+              window.location.pathname + window.location.search,
+            );
+          })
+          .catch((error: unknown) => {
+            console.error(error);
+          });
+      }
+      return;
+    }
     void WebBrowser.warmUpAsync();
     return () => {
       void WebBrowser.coolDownAsync();
@@ -21,6 +48,16 @@ export default function GoogleSignInButton() {
     void (async () => {
       setLoading(true);
       try {
+        if (Platform.OS === "web") {
+          await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+              redirectTo: window.location.href,
+            },
+          });
+          return;
+        }
+
         const authUrl = (
           await supabase.auth.signInWithOAuth({
             provider: "google",

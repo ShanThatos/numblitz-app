@@ -1,6 +1,6 @@
 import { KatexWebView } from "~/components/views/katex";
 import * as Haptics from "expo-haptics";
-import { Pressable, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
 import { QuizInputEvent } from "./QuizInputEvent";
 
 export interface QuizAnswerChoiceProps extends QuizInputEvent {
@@ -20,7 +20,10 @@ export default function QuizAnswerChoice({
     <Pressable
       className={`box-border min-h-14 rounded border-2 p-2 shadow-sm active:border-neutral-300 active:shadow-none ${selected ? "border-sky-600 bg-sky-100" : "border-transparent bg-white"} `}
       onPressIn={() => {
-        void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
+        if (["ios", "android"].includes(Platform.OS)) {
+          void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
+        }
+        console.log({ type, value });
         onPress?.({ type, value });
       }}
     >

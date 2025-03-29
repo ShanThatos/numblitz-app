@@ -1,16 +1,33 @@
 import { useCallback } from "react";
-import { useModel } from "~/api/models";
+import { getModels, useModel } from "~/api/models";
 import { useTopPracticeQuizScores } from "~/api/scores";
 import { useUser } from "~/components/contexts/session";
 import BackButton from "~/components/screens/components/BackButton";
 import PromiseRefreshControl from "~/components/screens/components/PromiseRefreshControl";
+import { ScreenContainer } from "~/components/screens/components/ScreenContainer";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
+import { TrackedView, useTrackedView } from "~/components/ui/trackedview";
 import { AutoHeightWebView } from "~/components/views/html";
 import { supabase } from "~/lib/clients";
 import { buildModelExplanationHtmlPage } from "~/lib/html";
 import { Link, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { ScrollView, View } from "react-native";
+import Head from "expo-router/head";
+import { Platform, useWindowDimensions, View } from "react-native";
+
+export async function generateStaticParams(): Promise<
+  Record<string, string>[]
+> {
+  const { data } = await getModels();
+  if (!data) {
+    throw new Error("Failed to fetch models");
+  }
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  return data.map(({ category_name, name }) => ({
+    category: category_name,
+    model: name,
+  }));
+}
 
 const useUpdateRecentlyViewed = () => {
   const params = useLocalSearchParams<{ category: string; model: string }>();
@@ -49,12 +66,15 @@ const useUpdateRecentlyViewed = () => {
 };
 
 export default function ModelScreen() {
+  const windowDimensions = useWindowDimensions();
   const params = useLocalSearchParams<{ category: string; model: string }>();
   const { data: model, refetch: refetchModel } = useModel(params.model);
   const { data: topScores, refetch: refetchTopScores } =
     useTopPracticeQuizScores(model?.data?.id);
 
   useUpdateRecentlyViewed();
+
+  const trackedPracticeButton = useTrackedView();
 
   const onRefresh = () => {
     return Promise.all([refetchModel(), refetchTopScores()]);
@@ -66,55 +86,65 @@ export default function ModelScreen() {
 
   return (
     <View className="flex-1">
-      <View className="flex-1">
-        <ScrollView
-          className="flex-1"
-          contentContainerStyle={{ flexGrow: 1 }}
-          refreshControl={<PromiseRefreshControl onRefresh={onRefresh} />}
+      {Platform.OS === "web" && model?.data?.display_name && (
+        <Head>
+          <title>NumBlitz | {model.data.display_name}</title>
+        </Head>
+      )}
+      <ScreenContainer
+        refreshControl={<PromiseRefreshControl onRefresh={onRefresh} />}
+      >
+        <View
+          className="pt-safe flex-1"
+          style={{
+            paddingBottom: trackedPracticeButton.height,
+          }}
         >
-          <View className="pt-safe flex-1">
-            <View className="flex flex-row items-start gap-3 px-4 pt-2">
-              <BackButton size={20} />
-              <View className="flex-1">
-                <Text className="text-3xl font-bold leading-none">
-                  {mainTitle}
+          <View className="flex flex-row items-center gap-3 px-4 pt-2">
+            <BackButton size={20} />
+            <View className="flex-1">
+              <Text className="text-3xl font-bold leading-none">
+                {mainTitle}
+              </Text>
+              {!!subTitle && (
+                <Text className="text-xl font-bold leading-tight text-neutral-700">
+                  {subTitle}
                 </Text>
-                {subTitle && (
-                  <Text className="text-xl font-bold leading-tight text-neutral-700">
-                    {subTitle}
-                  </Text>
-                )}
-              </View>
-            </View>
-            {topScores?.data && (
-              <View className="flex flex-row items-center gap-2 px-4 pt-4">
-                <Text className="text-lg leading-none text-gray-600">
-                  Your Top Scores:
-                </Text>
-                {topScores.data.topscores?.map((score, index) => (
-                  <View key={`${score.toString()}-${index.toString()}`}>
-                    <Text
-                      className={`leading-none ${score >= 80 ? "text-green-600" : "text-red-600"} `}
-                    >
-                      {score.toString()}%
-                    </Text>
-                  </View>
-                ))}
-              </View>
-            )}
-            <View className="flex-1 py-2">
-              {model && (
-                <AutoHeightWebView
-                  source={buildModelExplanationHtmlPage(
-                    model.data?.explanation ?? "[]",
-                  )}
-                />
               )}
             </View>
           </View>
-        </ScrollView>
-      </View>
-      <View className="border-t-hairline border-t-neutral-300 p-2">
+          {topScores?.data && (
+            <View className="flex flex-row items-center gap-2 px-4 pt-4">
+              <Text className="text-lg leading-none text-gray-600">
+                Your Top Scores:
+              </Text>
+              {topScores.data.topscores?.map((score, index) => (
+                <View key={`${score.toString()}-${index.toString()}`}>
+                  <Text
+                    className={`leading-none ${score >= 80 ? "text-green-600" : "text-red-600"} `}
+                  >
+                    {score.toString()}%
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+          <View className="flex-1 py-2">
+            {model && (
+              <AutoHeightWebView
+                source={buildModelExplanationHtmlPage(
+                  model.data?.explanation ?? "[]",
+                )}
+                defaultHeight={windowDimensions.height}
+              />
+            )}
+          </View>
+        </View>
+      </ScreenContainer>
+      <TrackedView
+        {...trackedPracticeButton.props}
+        className="absolute bottom-0 w-full border-t-hairline border-t-neutral-300 p-2"
+      >
         <Link
           href={`/practice/${params.category}/${params.model}/quiz`}
           asChild
@@ -123,7 +153,7 @@ export default function ModelScreen() {
             <Text>Practice</Text>
           </Button>
         </Link>
-      </View>
+      </TrackedView>
     </View>
   );
 }

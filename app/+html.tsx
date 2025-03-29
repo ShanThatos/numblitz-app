@@ -12,7 +12,16 @@ export default function Root({ children }: { children: React.ReactNode }) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
+        />
+        <meta
+          name="google-site-verification"
+          content="mloEoZOcH1UpYIQGgqJHmQxQWmVSrFGwn8f7WyVA8HM"
+        />
+
+        <meta
+          name="description"
+          content="NumBlitz, Level up your mental math skills for Number Sense competitions. Discover powerful math tricks to solve problems faster and with ease. Apply what you learn with unlimited random practice problems tailored to each trick."
         />
 
         {/* 
@@ -22,7 +31,7 @@ export default function Root({ children }: { children: React.ReactNode }) {
         <ScrollViewStyleReset />
 
         {/* Using raw CSS styles as an escape-hatch to ensure the background color never flickers in dark-mode. */}
-        <style dangerouslySetInnerHTML={{ __html: responsiveBackground }} />
+        {/* <style dangerouslySetInnerHTML={{ __html: responsiveBackground }} /> */}
         {/* Add any additional <head> elements that you want globally available on web... */}
       </head>
       <body>{children}</body>
@@ -30,12 +39,12 @@ export default function Root({ children }: { children: React.ReactNode }) {
   );
 }
 
-const responsiveBackground = `
-body {
-  background-color: #fff;
-}
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #000;
-  }
-}`;
+// const responsiveBackground = `
+// body {
+//   background-color: #fff;
+// }
+// @media (prefers-color-scheme: dark) {
+//   body {
+//     background-color: #000;
+//   }
+// }`;

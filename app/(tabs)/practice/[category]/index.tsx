@@ -1,12 +1,25 @@
-import { useCategories } from "~/api/categories";
+import { getCategories, useCategories } from "~/api/categories";
 import { useModelsByCategory } from "~/api/models";
 import BackButton from "~/components/screens/components/BackButton";
 import ModelButton from "~/components/screens/components/ModelButton";
 import ModelButtonLoader from "~/components/screens/components/ModelButtonLoader";
 import PromiseRefreshControl from "~/components/screens/components/PromiseRefreshControl";
+import { ScreenContainer } from "~/components/screens/components/ScreenContainer";
 import { Text } from "~/components/ui/text";
 import { useLocalSearchParams } from "expo-router";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
+
+export async function generateStaticParams(): Promise<
+  Record<string, string>[]
+> {
+  const { data } = await getCategories();
+  if (!data) {
+    throw new Error("Failed to fetch categories");
+  }
+  return data.map(({ name }) => ({
+    category: name,
+  }));
+}
 
 export default function CategoryScreen() {
   const params = useLocalSearchParams<{ category: string }>();
@@ -34,12 +47,11 @@ export default function CategoryScreen() {
   };
 
   return (
-    <ScrollView
-      className="flex-1"
+    <ScreenContainer
       refreshControl={<PromiseRefreshControl onRefresh={onRefresh} />}
     >
       <View className="pt-safe flex-1">
-        <View className="flex flex-row items-start gap-3 px-3 pt-2">
+        <View className="flex flex-row items-center gap-3 px-3 pt-2">
           <BackButton size={25} />
           <Text className="text-4xl font-bold leading-none">
             {category?.display_name}
@@ -53,6 +65,6 @@ export default function CategoryScreen() {
             : new Array(3).fill(0).map((_, i) => <ModelButtonLoader key={i} />)}
         </View>
       </View>
-    </ScrollView>
+    </ScreenContainer>
   );
 }

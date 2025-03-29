@@ -1,17 +1,18 @@
 import { supabase } from "~/lib/clients";
 import { useQueryFocusRefetch } from "./utils";
 
+export const getModels = async () => {
+  return await supabase
+    .from("mathgen_models_view")
+    .select("id, name, category_name, display_name, display_image, difficulty")
+    .order("order", { ascending: true })
+    .throwOnError();
+};
+
 export const useModels = () => {
   return useQueryFocusRefetch({
     queryKey: ["models"],
-    queryFn: async () =>
-      await supabase
-        .from("mathgen_models_view")
-        .select(
-          "id, name, category_name, display_name, display_image, difficulty",
-        )
-        .order("order", { ascending: true })
-        .throwOnError(),
+    queryFn: getModels,
   });
 };
 

@@ -1,13 +1,13 @@
-import { useUser } from "~/components/contexts/session";
+import { useSession } from "~/components/contexts/session";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { Redirect, Stack } from "expo-router";
 
 export default function ProfileLayout() {
-  const user = useUser();
+  const session = useSession();
   const { colorScheme } = useColorScheme();
 
-  if (!user) {
+  if (!session.loading && !session.session?.user) {
     return <Redirect href={"/"} />;
   }
 

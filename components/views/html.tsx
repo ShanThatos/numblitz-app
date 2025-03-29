@@ -4,11 +4,15 @@ import WebView from "react-native-webview";
 
 interface AutoHeightWebViewProps {
   source: string;
+  defaultHeight?: number;
 }
 
-export const AutoHeightWebView = ({ source }: AutoHeightWebViewProps) => {
+export const AutoHeightWebView = ({
+  source,
+  defaultHeight,
+}: AutoHeightWebViewProps) => {
   const [, setWidth] = useState<number | undefined>();
-  const [height, setHeight] = useState<number | undefined>();
+  const [height, setHeight] = useState<number | undefined>(defaultHeight);
 
   return (
     <View style={{ height }}>

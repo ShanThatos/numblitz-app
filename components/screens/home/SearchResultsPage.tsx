@@ -35,7 +35,7 @@ export default function SearchResultsPage({
       showsVerticalScrollIndicator={false}
     >
       <Pressable
-        className="flex flex-1 flex-col items-stretch gap-2"
+        className="flex flex-1 cursor-default flex-col items-stretch gap-2"
         onPress={dismissSearch}
       >
         {results.map((model) => (

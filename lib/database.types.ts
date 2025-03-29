@@ -298,6 +298,10 @@ export type Database = {
           order: number;
         }[];
       };
+      health: {
+        Args: Record<PropertyKey, never>;
+        Returns: string;
+      };
     };
     Enums: {
       [_ in never]: never;

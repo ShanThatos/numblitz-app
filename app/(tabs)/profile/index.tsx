@@ -1,21 +1,18 @@
 import { useProfile } from "~/api/profile";
+import { ScreenContainer } from "~/components/screens/components/ScreenContainer";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Text } from "~/components/ui/text";
 import ChevronRight from "~/lib/icons/ChevronRight";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
-import { Pressable, ScrollView, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 export default function ProfileScreen() {
   const { data: profile } = useProfile();
 
   return (
-    <ScrollView
-      className="pt-safe flex-1"
-      contentContainerClassName="flex-1"
-      bounces={false}
-    >
-      <View className="flex-1 flex-col gap-5 px-4 pb-5 pt-3">
+    <ScreenContainer bounces={false}>
+      <View className="pt-safe flex-1 flex-col gap-5 px-4 pb-5 pt-3">
         <View>
           <View className="flex flex-row items-center gap-2.5 px-2 pb-4">
             {profile?.data?.avatar_url ? (
@@ -61,16 +58,8 @@ export default function ProfileScreen() {
               <ChevronRight className="ml-auto text-slate-600" size={20} />
             </Pressable>
           </Link>
-          {/* <Pressable
-            className="mt-auto rounded-full bg-brand-dark p-3 active:opacity-80"
-            onPress={() => {
-              void supabase.auth.signOut();
-            }}
-          >
-            <Text className="text-center text-lg text-white">Logout</Text>
-          </Pressable> */}
         </View>
       </View>
-    </ScrollView>
+    </ScreenContainer>
   );
 }

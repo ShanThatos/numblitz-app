@@ -14,6 +14,7 @@ import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { useFonts } from "expo-font";
 import { Slot, SplashScreen } from "expo-router";
+import Head from "expo-router/head";
 import { StatusBar } from "expo-status-bar";
 import { AppState, Platform } from "react-native";
 
@@ -45,6 +46,18 @@ function onAppStateChange(status: AppStateStatus) {
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
+
+  // useEffect(() => {
+  //   if (Platform.OS === "web") {
+  //     const interval = setInterval(() => {
+  //       if (!window.location.pathname.endsWith("/"))
+  //         window.history.replaceState(null, "", `${window.location.pathname}/`);
+  //     }, 200);
+  //     return () => {
+  //       clearInterval(interval);
+  //     };
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (isDarkColorScheme) {
@@ -109,6 +122,11 @@ export default function RootLayout() {
 
   return (
     <>
+      {Platform.OS === "web" && (
+        <Head>
+          <title>NumBlitz | Number Sense Mental Math Tricks</title>
+        </Head>
+      )}
       <SessionProvider>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>

@@ -7,6 +7,7 @@ import ReadyPage from "~/components/screens/quiz/ReadyPage";
 import ResultsPage, {
   ResultsPageProps,
 } from "~/components/screens/quiz/ResultsPage";
+import SmallScreenPage from "~/components/screens/quiz/SmallScreenPage";
 import { Text } from "~/components/ui/text";
 import {
   useFocusEffect,
@@ -14,6 +15,7 @@ import {
   useNavigation,
 } from "expo-router";
 import { DateTime, Duration } from "luxon";
+import { Platform } from "react-native";
 
 const PRACTICE_AMOUNT = 20;
 const PRACTICE_DURATION = Duration.fromObject({ minutes: 5 });
@@ -107,6 +109,14 @@ export default function ModelQuizScreen() {
 
   if (modelStatus !== "success" || !model.data) {
     return <Text>Loading...</Text>;
+  }
+
+  if (
+    Platform.OS === "web" &&
+    quizState !== "finished" &&
+    window.matchMedia("(max-width: 768px)").matches
+  ) {
+    return <SmallScreenPage />;
   }
 
   if (quizState === "ready") {

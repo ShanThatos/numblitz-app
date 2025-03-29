@@ -4,11 +4,12 @@ import { usePracticeQuizScores } from "~/api/scores";
 import { PracticeQuizScoreResult } from "~/api/types";
 import BackButton from "~/components/screens/components/BackButton";
 import PromiseRefreshControl from "~/components/screens/components/PromiseRefreshControl";
+import { ScreenContainer } from "~/components/screens/components/ScreenContainer";
 import { Text } from "~/components/ui/text";
 import ChevronRight from "~/lib/icons/ChevronRight";
 import { Link } from "expo-router";
 import { DateTime } from "luxon";
-import { Pressable, ScrollView, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 export default function ProfileHistoryScreen() {
   const { data: scoresData, refetch: scoresRefetch } = usePracticeQuizScores();
@@ -31,12 +32,11 @@ export default function ProfileHistoryScreen() {
   };
 
   return (
-    <ScrollView
-      className="flex-1"
+    <ScreenContainer
       refreshControl={<PromiseRefreshControl onRefresh={refresh} />}
     >
       <View className="pt-safe flex flex-1 flex-col">
-        <View className="flex flex-row items-start gap-3 px-3 pt-2">
+        <View className="flex flex-row items-center gap-3 px-3 pt-2">
           <BackButton size={25} />
           <Text className="text-4xl font-bold leading-none">History</Text>
         </View>
@@ -90,6 +90,6 @@ export default function ProfileHistoryScreen() {
           })}
         </View>
       </View>
-    </ScrollView>
+    </ScreenContainer>
   );
 }

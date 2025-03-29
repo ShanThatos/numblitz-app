@@ -4,10 +4,11 @@ import { Text } from "~/components/ui/text";
 import { KatexWebView } from "~/components/views/katex";
 import { DateTime } from "luxon";
 import { View } from "react-native";
-import { useResetTabBarGoBack } from "./common";
 import QuizAnswerInput, { QuizAnswerInputHandle } from "./components/QuizInput";
 import { QuizInputEvent } from "./components/QuizInputEvent";
 import QuizKeyboard from "./components/QuizKeyboard";
+import useKeyboardEvents from "./hooks/use-keyboard-events";
+import useResetTabBarGoBack from "./hooks/use-reset-go-back";
 
 const RemainingTime = ({
   endTime,
@@ -99,6 +100,8 @@ export default function QuizPage({
     },
     [current, currentAnswerChoice, onFinish, problems, resetTabBarGoBack],
   );
+
+  useKeyboardEvents(handleKeyboardPress);
 
   return (
     <View className="pt-safe flex-1 bg-white">

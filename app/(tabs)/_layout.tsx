@@ -1,32 +1,11 @@
 import React from "react";
 import { useUser } from "~/components/contexts/session";
 import { NAV_THEME } from "~/lib/constants";
+import { NAV_CONFIG } from "~/lib/navconfig";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { Tabs } from "expo-router";
-import { House, NotebookPen, UserRound } from "lucide-react-native";
 
-const NAV_CONFIG = [
-  {
-    name: "index",
-    title: "Home",
-    IconComponent: House,
-    requireAuth: false,
-  },
-  {
-    name: "practice",
-    title: "Practice",
-    IconComponent: NotebookPen,
-    requireAuth: false,
-  },
-  {
-    name: "profile",
-    title: "Profile",
-    IconComponent: UserRound,
-    requireAuth: true,
-  },
-];
-
-export default function TabLayout() {
+export default function BaseLayout() {
   const user = useUser();
   const { colorScheme } = useColorScheme();
 

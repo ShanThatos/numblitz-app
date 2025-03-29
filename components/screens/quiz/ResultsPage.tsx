@@ -18,7 +18,7 @@ import { Json, Tables } from "~/lib/database.types";
 import { buildQuestionsAnswersHtmlPage } from "~/lib/html";
 import { Duration } from "luxon";
 import { Pressable, ScrollView, View } from "react-native";
-import { useResetTabBarGoBack } from "./common";
+import useResetTabBarGoBack from "./hooks/use-reset-go-back";
 
 export interface ResultsPageProps {
   model: Tables<"mathgen_models_view">;
@@ -95,7 +95,7 @@ export default function ResultsPage({
 
   return (
     <>
-      <View className="pt-safe pb-safe flex flex-1 flex-col bg-white">
+      <View className="pt-safe pb-safe flex flex-1 flex-col bg-white web:pt-2">
         <View className="px-3">
           <View className="flex flex-col items-center gap-2 rounded-xl border-2 border-red-200 bg-brand-background p-5 shadow-sm">
             <Text className="text-2xl">Quiz Results</Text>
@@ -112,12 +112,12 @@ export default function ResultsPage({
                 </Text>
               )}
             </View>
-            <View className="flex flex-row items-center justify-center gap-8">
+            <View className="flex flex-row items-center justify-center gap-8 self-stretch">
               <TextClassContext.Provider value="text-lg">
                 <View className="flex flex-1 flex-col items-end justify-start">
-                  <Text>Correct</Text>
-                  <Text>Total time</Text>
-                  <Text>Average time</Text>
+                  <Text numberOfLines={1}>Correct</Text>
+                  <Text numberOfLines={1}>Total time</Text>
+                  <Text numberOfLines={1}>Average time</Text>
                 </View>
                 <View className="flex flex-1 flex-col items-start justify-start">
                   <Text>

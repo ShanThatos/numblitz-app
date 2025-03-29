@@ -1,17 +1,17 @@
 import { useCategories } from "~/api/categories";
 import ModelButtonLoader from "~/components/screens/components/ModelButtonLoader";
 import PromiseRefreshControl from "~/components/screens/components/PromiseRefreshControl";
+import { ScreenContainer } from "~/components/screens/components/ScreenContainer";
 import { Text } from "~/components/ui/text";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
-import { Pressable, ScrollView, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 export default function PracticeScreen() {
   const { data: categories, status, refetch } = useCategories();
 
   return (
-    <ScrollView
-      className="flex-1"
+    <ScreenContainer
       refreshControl={<PromiseRefreshControl onRefresh={refetch} />}
     >
       <View className="pt-safe flex flex-1 flex-col">
@@ -45,6 +45,6 @@ export default function PracticeScreen() {
             : new Array(3).fill(0).map((_, i) => <ModelButtonLoader key={i} />)}
         </View>
       </View>
-    </ScrollView>
+    </ScreenContainer>
   );
 }

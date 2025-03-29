@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
-import { useUser } from "~/components/contexts/session";
+import { useSession } from "~/components/contexts/session";
 import PromiseRefreshControl from "~/components/screens/components/PromiseRefreshControl";
+import { ScreenContainer } from "~/components/screens/components/ScreenContainer";
 import DashboardPage from "~/components/screens/home/DashboardPage";
 import SearchResultsPage from "~/components/screens/home/SearchResultsPage";
 import SignInPage from "~/components/screens/home/SignInPage";
@@ -8,40 +9,10 @@ import { Text } from "~/components/ui/text";
 import useBooleanState from "~/hooks/use-boolean-state";
 import { queryClient } from "~/lib/clients";
 import { Image } from "expo-image";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  ScrollViewProps,
-  TextInput,
-  View,
-} from "react-native";
-
-export function HomeScreenContainer(props: ScrollViewProps) {
-  return Platform.select({
-    web: (
-      <View className="flex-1 overflow-y-auto bg-brand-background">
-        {props.children}
-      </View>
-    ),
-    default: (
-      <KeyboardAvoidingView
-        className="flex-1 bg-brand-background"
-        behavior="padding"
-      >
-        <ScrollView
-          className="flex-1"
-          contentContainerClassName="min-h-full"
-          keyboardShouldPersistTaps="always"
-          {...props}
-        />
-      </KeyboardAvoidingView>
-    ),
-  });
-}
+import { TextInput, View } from "react-native";
 
 export default function HomeScreen() {
-  const user = useUser();
+  const { session, loading } = useSession();
 
   const searchInputRef = useRef<TextInput>(null);
   const [searchInputFocused, setSearchInputFocused, setSearchInputBlurred] =
@@ -54,7 +25,7 @@ export default function HomeScreen() {
     });
 
   return (
-    <HomeScreenContainer
+    <ScreenContainer
       scrollEnabled={!searchInputFocused}
       refreshControl={<PromiseRefreshControl onRefresh={onRefresh} />}
     >
@@ -62,11 +33,11 @@ export default function HomeScreen() {
         <View className="flex-1 flex-col gap-5 px-5 py-3">
           <View className="flex flex-row items-center gap-2">
             <Image
-              className="aspect-square h-10"
+              className="aspect-square h-10 web:hidden"
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports
               source={require("assets/images/icon-rounded.png")}
             />
-            <Text className="pt-2 text-4xl font-bold leading-none">
+            <Text className="native:pt-2 text-4xl font-bold leading-none">
               Dashboard
             </Text>
           </View>
@@ -78,23 +49,28 @@ export default function HomeScreen() {
             value={searchQuery}
             onChangeText={setSearchQuery}
             onFocus={setSearchInputFocused}
-            onBlur={setSearchInputBlurred}
+            onBlur={() => {
+              setTimeout(setSearchInputBlurred, 300);
+            }}
           />
           {searchInputFocused ? (
             <SearchResultsPage
               searchQuery={searchQuery}
               dismissSearch={() => {
                 setSearchQuery("");
+                setSearchInputBlurred();
                 searchInputRef.current?.blur();
               }}
             />
-          ) : user ? (
+          ) : loading ? (
+            <></>
+          ) : session?.user ? (
             <DashboardPage />
           ) : (
             <SignInPage />
           )}
         </View>
       </View>
-    </HomeScreenContainer>
+    </ScreenContainer>
   );
 }

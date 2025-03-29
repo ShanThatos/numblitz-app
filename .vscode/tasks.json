@@ -22,6 +22,16 @@
       }
     },
     {
+      "label": "npm-build:web",
+      "type": "shell",
+      "command": "npm run build:web",
+      "options": {
+        "statusbar": {
+          "label": "$(package) Expo Deploy Web"
+        }
+      }
+    },
+    {
       "label": "npm-supabase:gen:types",
       "type": "shell",
       "command": "npm run supabase:gen:types",
