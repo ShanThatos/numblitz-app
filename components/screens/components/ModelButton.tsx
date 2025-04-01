@@ -38,7 +38,6 @@ export default function ModelButton({
         onPress={(event) => {
           if (onPress?.()) {
             event.preventDefault();
-            return;
           }
           if (hardResetNavigate) {
             event.preventDefault();

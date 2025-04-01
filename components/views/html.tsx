@@ -30,8 +30,6 @@ export const AutoHeightWebView = ({
           for (const time of [0, 100, 500]) {
             setTimeout(function() {
               window.ReactNativeWebView.postMessage("height:" + document.body.scrollHeight);
-            }, time);
-            setTimeout(function() {
               window.ReactNativeWebView.postMessage("width:" + document.body.scrollWidth);
             }, time);
           }

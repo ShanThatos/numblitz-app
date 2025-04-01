@@ -1,0 +1,22 @@
+diff --git a/node_modules/expo-router/build/getLinkingConfig.js b/node_modules/expo-router/build/getLinkingConfig.js
+index 1528d01..240e864 100644
+--- a/node_modules/expo-router/build/getLinkingConfig.js
++++ b/node_modules/expo-router/build/getLinkingConfig.js
+@@ -19,6 +19,7 @@ function getLinkingConfig(store, routes, context, { metaOnly = true, serverUrl }
+     const nativeLinking = nativeLinkingKey
+         ? context(nativeLinkingKey)
+         : undefined;
++    const config = getNavigationConfig(routes, metaOnly);
+     return {
+         prefixes: [],
+         config: getNavigationConfig(routes, metaOnly),
+@@ -59,7 +60,8 @@ function getLinkingConfig(store, routes, context, { metaOnly = true, serverUrl }
+         getPathFromState(state, options) {
+             return ((0, linking_1.getPathFromState)(state, {
+                 screens: {},
+-                ...this.config,
++                // ...this.config,
++                ...config,
+                 ...options,
+             }) ?? '/');
+         },

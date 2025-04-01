@@ -20,13 +20,34 @@ import { AppState, Platform } from "react-native";
 
 import type { AppStateStatus } from "react-native";
 
+const fontsPatch = {
+  regular: {
+    fontFamily: "",
+    fontWeight: "normal",
+  },
+  medium: {
+    fontFamily: "",
+    fontWeight: "normal",
+  },
+  bold: {
+    fontFamily: "",
+    fontWeight: "normal",
+  },
+  heavy: {
+    fontFamily: "",
+    fontWeight: "normal",
+  },
+} as const;
+
 const LIGHT_THEME: Theme = {
   dark: false,
   colors: NAV_THEME.light,
+  fonts: fontsPatch,
 };
 const DARK_THEME: Theme = {
   dark: true,
   colors: NAV_THEME.dark,
+  fonts: fontsPatch,
 };
 
 export {
@@ -46,18 +67,6 @@ function onAppStateChange(status: AppStateStatus) {
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
-
-  // useEffect(() => {
-  //   if (Platform.OS === "web") {
-  //     const interval = setInterval(() => {
-  //       if (!window.location.pathname.endsWith("/"))
-  //         window.history.replaceState(null, "", `${window.location.pathname}/`);
-  //     }, 200);
-  //     return () => {
-  //       clearInterval(interval);
-  //     };
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (isDarkColorScheme) {

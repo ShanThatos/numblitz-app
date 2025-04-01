@@ -44,6 +44,7 @@ export const AutoHeightWebView = ({
           height,
           backgroundColor: "transparent",
           pointerEvents: "none",
+          userSelect: "none",
         }}
       />
     </View>

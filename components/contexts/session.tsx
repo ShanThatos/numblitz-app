@@ -51,9 +51,7 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
       setSession(session);
     });
 
-    return () => {
-      subscription.unsubscribe();
-    };
+    return subscription.unsubscribe;
   }, []);
 
   return (
