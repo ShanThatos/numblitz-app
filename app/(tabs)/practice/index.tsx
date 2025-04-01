@@ -25,11 +25,8 @@ export default function PracticeScreen() {
                 .map((category) => (
                   <Link
                     key={category.id}
+                    href={`/practice/${category.name}`}
                     push
-                    href={{
-                      pathname: "/(tabs)/practice/[category]",
-                      params: { category: category.name },
-                    }}
                     asChild
                   >
                     <Pressable className="native:px-4 rounded-md border border-input bg-white px-4 py-2 active:bg-accent web:hover:bg-accent">
