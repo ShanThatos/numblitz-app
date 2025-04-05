@@ -1,4 +1,5 @@
 import { useCategories } from "~/api/categories";
+import CardsContainer from "~/components/screens/components/CardsContainer";
 import ModelButtonLoader from "~/components/screens/components/ModelButtonLoader";
 import PromiseRefreshControl from "~/components/screens/components/PromiseRefreshControl";
 import { ScreenContainer } from "~/components/screens/components/ScreenContainer";
@@ -18,7 +19,7 @@ export default function PracticeScreen() {
         <Text className="px-5 pt-2 text-4xl font-bold leading-none">
           Categories
         </Text>
-        <View className="flex flex-col items-stretch justify-center gap-2.5 p-5">
+        <CardsContainer>
           {status === "success"
             ? categories.data
                 ?.filter((category) => !category.hidden)
@@ -29,18 +30,20 @@ export default function PracticeScreen() {
                     push
                     asChild
                   >
-                    <Pressable className="native:px-4 rounded-md border border-input bg-white px-4 py-2 active:bg-accent web:hover:bg-accent">
+                    <Pressable className="flex-1 rounded-md border border-input bg-white px-4 py-2 active:bg-accent web:hover:bg-accent">
                       <Text>{category.display_name}</Text>
-                      <Image
-                        className="ml-auto mr-auto h-10 w-full max-w-[60%]"
-                        source={{ uri: category.display_image }}
-                        contentFit="contain"
-                      />
+                      <View className="flex-1 p-1">
+                        <Image
+                          className="m-auto h-10 w-full"
+                          source={{ uri: category.display_image }}
+                          contentFit="contain"
+                        />
+                      </View>
                     </Pressable>
                   </Link>
                 ))
-            : new Array(3).fill(0).map((_, i) => <ModelButtonLoader key={i} />)}
-        </View>
+            : new Array(5).fill(0).map((_, i) => <ModelButtonLoader key={i} />)}
+        </CardsContainer>
       </View>
     </ScreenContainer>
   );

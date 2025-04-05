@@ -9,7 +9,7 @@
     "supabase:gen:types": "supabase gen types --lang=typescript --project-id uhfwvrttwkpkezltxzpv --schema public > lib/database.types.ts && prettier --write lib/database.types.ts && node scripts/fixtypes.js",
     "build:ios:dev": "eas build --platform ios --profile development",
     "build:ios:prod": "eas build --platform ios --profile production --auto-submit",
-    "build:web": "expo export -p web && node scripts/sitemap.js && eas deploy --prod",
+    "build:web": "expo export -p web && eas deploy --prod",
     "submit:ios": "eas submit --platform ios",
     "postinstall": "patch-package"
   },

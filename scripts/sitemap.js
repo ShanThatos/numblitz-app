@@ -27,5 +27,7 @@ for (const dir of dirs) {
   sitemap.push(...collectUrlPaths(`./dist/${dir}`));
 }
 
+sitemap.sort((a, b) => a.localeCompare(b));
+
 fs.writeFileSync("./public/sitemap.txt", sitemap.join("\n"));
 fs.writeFileSync("./dist/sitemap.txt", sitemap.join("\n"));

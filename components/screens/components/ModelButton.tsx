@@ -34,7 +34,7 @@ export default function ModelButton({
   return (
     <Link href={`/practice/${model.category_name}/${model.name}`} asChild>
       <Pressable
-        className="native:px-4 native:py-2 rounded-md border border-input bg-white px-4 py-2 active:bg-accent web:hover:bg-accent"
+        className="flex-1 rounded-md border border-input bg-white px-4 py-2 active:bg-accent web:hover:bg-accent"
         onPress={(event) => {
           if (onPress?.()) {
             event.preventDefault();
@@ -91,11 +91,13 @@ export default function ModelButton({
             </Text>
           </View>
         </View>
-        <Image
-          className="ml-auto mr-auto h-10 w-full max-w-[60%]"
-          source={{ uri: model.display_image }}
-          contentFit="contain"
-        />
+        <View className="flex-1 p-1">
+          <Image
+            className="m-auto h-10 max-h-full w-full"
+            source={{ uri: model.display_image }}
+            contentFit="contain"
+          />
+        </View>
       </Pressable>
     </Link>
   );

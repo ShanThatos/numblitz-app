@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { getModels, useModel } from "~/api/models";
+import { useModel } from "~/api/models";
 import { useTopPracticeQuizScores } from "~/api/scores";
 import { useUser } from "~/components/contexts/session";
 import BackButton from "~/components/screens/components/BackButton";
@@ -14,20 +14,6 @@ import { buildModelExplanationHtmlPage } from "~/lib/html";
 import { Link, useFocusEffect, useLocalSearchParams } from "expo-router";
 import Head from "expo-router/head";
 import { Platform, useWindowDimensions, View } from "react-native";
-
-export async function generateStaticParams(): Promise<
-  Record<string, string>[]
-> {
-  const { data } = await getModels();
-  if (!data) {
-    throw new Error("Failed to fetch models");
-  }
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  return data.map(({ category_name, name }) => ({
-    category: category_name,
-    model: name,
-  }));
-}
 
 const useUpdateRecentlyViewed = () => {
   const params = useLocalSearchParams<{ category: string; model: string }>();
