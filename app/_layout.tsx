@@ -9,6 +9,7 @@ import { Theme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 import { focusManager, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "~/components/contexts/session";
+import useCanonicalLink from "~/hooks/use-canonical-link";
 import { queryClient } from "~/lib/clients";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
@@ -67,6 +68,7 @@ function onAppStateChange(status: AppStateStatus) {
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
+  const canonicalLink = useCanonicalLink();
 
   useEffect(() => {
     if (isDarkColorScheme) {
@@ -134,6 +136,7 @@ export default function RootLayout() {
       {Platform.OS === "web" && (
         <Head>
           <title>NumBlitz | Number Sense Mental Math Tricks</title>
+          <link rel="canonical" href={canonicalLink} />
         </Head>
       )}
       <SessionProvider>
